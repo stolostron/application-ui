@@ -1,0 +1,165 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ActionModalApollo Testing Changes Apollo Client Cache For Edit App Modal 1`] = `
+Object {
+  "$ROOT_QUERY.actionModal": Object {
+    "data": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.data",
+      "type": "id",
+      "typename": undefined,
+    },
+    "open": true,
+    "resourceType": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.resourceType",
+      "type": "id",
+      "typename": undefined,
+    },
+    "type": "table.actions.applications.edit",
+  },
+  "$ROOT_QUERY.actionModal.data": Object {
+    "_uid": "icp-mongodb-0",
+    "clusterName": "local-cluster",
+    "kind": "applications",
+    "name": "icp-mongodb-0",
+    "namespace": "kube-system",
+    "selfLink": "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+  },
+  "$ROOT_QUERY.actionModal.resourceType": Object {
+    "list": "HCMApplicationList",
+    "name": "HCMApplication",
+  },
+  "ROOT_QUERY": Object {
+    "actionModal": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal",
+      "type": "id",
+      "typename": "actionModal",
+    },
+  },
+}
+`;
+
+exports[`ActionModalApollo Testing Changes Apollo Client Cache For Edit Modal 1`] = `
+Object {
+  "$ROOT_QUERY.actionModal": Object {
+    "data": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.data",
+      "type": "id",
+      "typename": undefined,
+    },
+    "open": true,
+    "resourceType": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.resourceType",
+      "type": "id",
+      "typename": undefined,
+    },
+    "type": "table.actions.edit",
+  },
+  "$ROOT_QUERY.actionModal.data": Object {
+    "_uid": "icp-mongodb-0",
+    "clusterName": "local-cluster",
+    "kind": "pods",
+    "name": "icp-mongodb-0",
+    "namespace": "kube-system",
+    "selfLink": "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+  },
+  "$ROOT_QUERY.actionModal.resourceType": Object {
+    "list": "HCMPodList",
+    "name": "HCMPod",
+  },
+  "ROOT_QUERY": Object {
+    "actionModal": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal",
+      "type": "id",
+      "typename": "actionModal",
+    },
+  },
+}
+`;
+
+exports[`ActionModalApollo Testing Changes Apollo Client Cache For Remove App Resource Modal 1`] = `
+Object {
+  "$ROOT_QUERY.actionModal": Object {
+    "data": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.data",
+      "type": "id",
+      "typename": undefined,
+    },
+    "open": true,
+    "resourceType": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.resourceType",
+      "type": "id",
+      "typename": undefined,
+    },
+    "type": "table.actions.applications.remove",
+  },
+  "$ROOT_QUERY.actionModal.data": Object {
+    "_uid": "icp-mongodb-0",
+    "clusterName": "local-cluster",
+    "kind": "applications",
+    "name": "icp-mongodb-0",
+    "namespace": "kube-system",
+    "selfLink": "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+  },
+  "$ROOT_QUERY.actionModal.resourceType": Object {
+    "list": "HCMApplicationList",
+    "name": "HCMApplication",
+  },
+  "ROOT_QUERY": Object {
+    "actionModal": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal",
+      "type": "id",
+      "typename": "actionModal",
+    },
+  },
+}
+`;
+
+exports[`ActionModalApollo Testing Changes Apollo Client Cache For Remove Resource Modal 1`] = `
+Object {
+  "$ROOT_QUERY.actionModal": Object {
+    "data": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.data",
+      "type": "id",
+      "typename": undefined,
+    },
+    "open": true,
+    "resourceType": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal.resourceType",
+      "type": "id",
+      "typename": undefined,
+    },
+    "type": "table.actions.remove",
+  },
+  "$ROOT_QUERY.actionModal.data": Object {
+    "_uid": "icp-mongodb-0",
+    "clusterName": "local-cluster",
+    "kind": "applications",
+    "name": "icp-mongodb-0",
+    "namespace": "kube-system",
+    "selfLink": "/api/v1/namespaces/kube-system/pods/icp-mongodb-0",
+  },
+  "$ROOT_QUERY.actionModal.resourceType": Object {
+    "list": "HCMApplicationList",
+    "name": "HCMApplication",
+  },
+  "ROOT_QUERY": Object {
+    "actionModal": Object {
+      "generated": true,
+      "id": "$ROOT_QUERY.actionModal",
+      "type": "id",
+      "typename": "actionModal",
+    },
+  },
+}
+`;

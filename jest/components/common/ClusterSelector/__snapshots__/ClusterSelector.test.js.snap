@@ -1,0 +1,844 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClusterSelector component renders empty control 1`] = `
+<div
+  className="creation-view-controls-labels"
+>
+  <div />
+  <div
+    className="clusterSelector-container"
+  >
+    <div
+      className="pf-c-check clusterSelector-checkbox"
+    >
+      <input
+        aria-invalid={false}
+        checked={true}
+        className="pf-c-check__input"
+        data-ouia-component-id="OUIA-Generated-Checkbox-2"
+        data-ouia-component-type="PF4/Checkbox"
+        data-ouia-safe={true}
+        disabled={false}
+        id="clusterSelector-checkbox-undefined"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        className="pf-c-check__label"
+        htmlFor="clusterSelector-checkbox-undefined"
+      >
+        Deploy application resources only on clusters matching specified labels
+      </label>
+    </div>
+    <dl
+      aria-label=""
+      className="pf-c-accordion"
+    >
+      <dt>
+        <button
+          aria-expanded={true}
+          className="pf-c-accordion__toggle pf-m-expanded"
+          id="labels-header"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="pf-c-accordion__toggle-text"
+          >
+            Cluster labels
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content pf-m-expanded"
+        hidden={false}
+        id=""
+      >
+        <div
+          className="pf-c-accordion__expanded-content-body"
+        >
+          <div
+            className="clusterSelector-labels-section"
+          >
+            <div
+              className="labels-descr"
+            >
+              Enter one or more matching labels to select the clusters to deploy to
+            </div>
+            <div
+              className="labels-section"
+              id="clusterSelector-labels-section-undefined"
+            >
+              <div
+                className="matching-labels-container"
+              >
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="pf-c-form__group"
+                    id="labelName-0-undefined-label"
+                  >
+                    <div
+                      className="pf-c-form__group-label"
+                    >
+                      <label
+                        className="pf-c-form__label"
+                        htmlFor="labelName-0-undefined"
+                      >
+                        <span
+                          className="pf-c-form__label-text"
+                        >
+                          Label
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="pf-c-form__label-required"
+                        >
+                           
+                          *
+                        </span>
+                      </label>
+                       
+                    </div>
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        data-ouia-component-id="OUIA-Generated-TextInputBase-5"
+                        data-ouia-component-type="PF4/TextInput"
+                        data-ouia-safe={true}
+                        disabled={false}
+                        id="labelName-0-undefined"
+                        label="Label"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label name"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value=""
+                      />
+                      
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="pf-c-form__group"
+                    id="labelValue-0-undefined-label"
+                  >
+                    <div
+                      className="pf-c-form__group-label"
+                    >
+                      <label
+                        className="pf-c-form__label"
+                        htmlFor="labelValue-0-undefined"
+                      >
+                        <span
+                          className="pf-c-form__label-text"
+                        >
+                          Value
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="pf-c-form__label-required"
+                        >
+                           
+                          *
+                        </span>
+                      </label>
+                       
+                    </div>
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        data-ouia-component-id="OUIA-Generated-TextInputBase-6"
+                        data-ouia-component-type="PF4/TextInput"
+                        data-ouia-safe={true}
+                        disabled={false}
+                        id="labelValue-0-undefined"
+                        label="Value"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label value"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value=""
+                      />
+                      
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div
+                className="add-label-btn "
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  className="add-label-btn-icon"
+                  fill="#06c"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                  />
+                </svg>
+                <div
+                  className="add-label-btn-text"
+                >
+                  Add another label
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </dd>
+    </dl>
+  </div>
+</div>
+`;
+
+exports[`ClusterSelector component renders empty control with data set 1`] = `
+<div
+  className="creation-view-controls-labels"
+>
+  <div />
+  <div
+    className="clusterSelector-container"
+  >
+    <div
+      className="pf-c-check clusterSelector-checkbox"
+    >
+      <input
+        aria-invalid={false}
+        checked={true}
+        className="pf-c-check__input"
+        data-ouia-component-id="OUIA-Generated-Checkbox-3"
+        data-ouia-component-type="PF4/Checkbox"
+        data-ouia-safe={true}
+        disabled={true}
+        id="clusterSelector-checkbox-undefined"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        className="pf-c-check__label pf-m-disabled"
+        htmlFor="clusterSelector-checkbox-undefined"
+      >
+        Deploy application resources only on clusters matching specified labels
+      </label>
+    </div>
+    <dl
+      aria-label=""
+      className="pf-c-accordion"
+    >
+      <dt>
+        <button
+          aria-expanded={true}
+          className="pf-c-accordion__toggle pf-m-expanded"
+          id="labels-header"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="pf-c-accordion__toggle-text"
+          >
+            Cluster labels
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content pf-m-expanded"
+        hidden={false}
+        id=""
+      >
+        <div
+          className="pf-c-accordion__expanded-content-body"
+        >
+          <div
+            className="clusterSelector-labels-section"
+          >
+            <div
+              className="labels-descr"
+            >
+              Enter one or more matching labels to select the clusters to deploy to
+            </div>
+            <div
+              className="labels-section"
+              id="clusterSelector-labels-section-undefined"
+            >
+              <div
+                className="matching-labels-container"
+              >
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="pf-c-form__group"
+                    id="labelName-0-undefined-label"
+                  >
+                    <div
+                      className="pf-c-form__group-label"
+                    >
+                      <label
+                        className="pf-c-form__label"
+                        htmlFor="labelName-0-undefined"
+                      >
+                        <span
+                          className="pf-c-form__label-text"
+                        >
+                          Label
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="pf-c-form__label-required"
+                        >
+                           
+                          *
+                        </span>
+                      </label>
+                       
+                    </div>
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        data-ouia-component-id="OUIA-Generated-TextInputBase-7"
+                        data-ouia-component-type="PF4/TextInput"
+                        data-ouia-safe={true}
+                        disabled={true}
+                        id="labelName-0-undefined"
+                        label="Label"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label name"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value="name"
+                      />
+                      
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="pf-c-form__group"
+                    id="labelValue-0-undefined-label"
+                  >
+                    <div
+                      className="pf-c-form__group-label"
+                    >
+                      <label
+                        className="pf-c-form__label"
+                        htmlFor="labelValue-0-undefined"
+                      >
+                        <span
+                          className="pf-c-form__label-text"
+                        >
+                          Value
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="pf-c-form__label-required"
+                        >
+                           
+                          *
+                        </span>
+                      </label>
+                       
+                    </div>
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        data-ouia-component-id="OUIA-Generated-TextInputBase-8"
+                        data-ouia-component-type="PF4/TextInput"
+                        data-ouia-safe={true}
+                        disabled={true}
+                        id="labelValue-0-undefined"
+                        label="Value"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label value"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value="ui-e2e-remote"
+                      />
+                      
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div
+                className="add-label-btn btn-disabled"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  className="add-label-btn-icon"
+                  fill="#06c"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                  />
+                </svg>
+                <div
+                  className="add-label-btn-text"
+                >
+                  Add another label
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </dd>
+    </dl>
+  </div>
+</div>
+`;
+
+exports[`ClusterSelector component renders full control 1`] = `
+<div
+  className="creation-view-controls-labels"
+>
+  <div />
+  <div
+    className="clusterSelector-container"
+  >
+    <div
+      className="pf-c-check clusterSelector-checkbox"
+    >
+      <input
+        aria-invalid={false}
+        checked={true}
+        className="pf-c-check__input"
+        data-ouia-component-id="OUIA-Generated-Checkbox-1"
+        data-ouia-component-type="PF4/Checkbox"
+        data-ouia-safe={true}
+        disabled={false}
+        id="clusterSelector-checkbox-undefined"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <label
+        className="pf-c-check__label"
+        htmlFor="clusterSelector-checkbox-undefined"
+      >
+        Deploy application resources only on clusters matching specified labels
+      </label>
+    </div>
+    <dl
+      aria-label=""
+      className="pf-c-accordion"
+    >
+      <dt>
+        <button
+          aria-expanded={true}
+          className="pf-c-accordion__toggle pf-m-expanded"
+          id="labels-header"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="pf-c-accordion__toggle-text"
+          >
+            Cluster labels
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content pf-m-expanded"
+        hidden={false}
+        id=""
+      >
+        <div
+          className="pf-c-accordion__expanded-content-body"
+        >
+          <div
+            className="clusterSelector-labels-section"
+          >
+            <div
+              className="labels-descr"
+            >
+              Enter one or more matching labels to select the clusters to deploy to
+            </div>
+            <div
+              className="labels-section"
+              id="clusterSelector-labels-section-undefined"
+            >
+              <div
+                className="matching-labels-container"
+              >
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="pf-c-form__group"
+                    id="labelName-0-undefined-label"
+                  >
+                    <div
+                      className="pf-c-form__group-label"
+                    >
+                      <label
+                        className="pf-c-form__label"
+                        htmlFor="labelName-0-undefined"
+                      >
+                        <span
+                          className="pf-c-form__label-text"
+                        >
+                          Label
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="pf-c-form__label-required"
+                        >
+                           
+                          *
+                        </span>
+                      </label>
+                       
+                    </div>
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        data-ouia-component-id="OUIA-Generated-TextInputBase-1"
+                        data-ouia-component-type="PF4/TextInput"
+                        data-ouia-safe={true}
+                        disabled={false}
+                        id="labelName-0-undefined"
+                        label="Label"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label name"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value="env"
+                      />
+                      
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="pf-c-form__group"
+                    id="labelValue-0-undefined-label"
+                  >
+                    <div
+                      className="pf-c-form__group-label"
+                    >
+                      <label
+                        className="pf-c-form__label"
+                        htmlFor="labelValue-0-undefined"
+                      >
+                        <span
+                          className="pf-c-form__label-text"
+                        >
+                          Value
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className="pf-c-form__label-required"
+                        >
+                           
+                          *
+                        </span>
+                      </label>
+                       
+                    </div>
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        data-ouia-component-id="OUIA-Generated-TextInputBase-2"
+                        data-ouia-component-type="PF4/TextInput"
+                        data-ouia-safe={true}
+                        disabled={false}
+                        id="labelValue-0-undefined"
+                        label="Value"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label value"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value="Dev"
+                      />
+                      
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div
+                className="matching-labels-container"
+              >
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="pf-c-form__group"
+                    id="labelName-1-undefined-label"
+                  >
+                    
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        data-ouia-component-id="OUIA-Generated-TextInputBase-3"
+                        data-ouia-component-type="PF4/TextInput"
+                        data-ouia-safe={true}
+                        disabled={false}
+                        id="labelName-1-undefined"
+                        label=""
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label name"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value="cloud"
+                      />
+                      
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="matching-labels-input"
+                >
+                  <div
+                    className="pf-c-form__group"
+                    id="labelValue-1-undefined-label"
+                  >
+                    
+                    <div
+                      className="pf-c-form__group-control"
+                    >
+                      <input
+                        aria-invalid={false}
+                        aria-label={null}
+                        className="pf-c-form-control text-input"
+                        data-ouia-component-id="OUIA-Generated-TextInputBase-4"
+                        data-ouia-component-type="PF4/TextInput"
+                        data-ouia-safe={true}
+                        disabled={false}
+                        id="labelValue-1-undefined"
+                        label=""
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        onFocus={[Function]}
+                        placeholder="Label value"
+                        readOnly={false}
+                        required={true}
+                        type="text"
+                        value="AWS"
+                      />
+                      
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="remove-label-btn "
+                  id={1}
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                >
+                  <svg
+                    aria-hidden={true}
+                    aria-labelledby={null}
+                    fill="#06c"
+                    height="1em"
+                    role="img"
+                    style={
+                      Object {
+                        "verticalAlign": "-0.125em",
+                      }
+                    }
+                    viewBox="0 0 512 512"
+                    width="1em"
+                  >
+                    <path
+                      d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm121.6 313.1c4.7 4.7 4.7 12.3 0 17L338 377.6c-4.7 4.7-12.3 4.7-17 0L256 312l-65.1 65.6c-4.7 4.7-12.3 4.7-17 0L134.4 338c-4.7-4.7-4.7-12.3 0-17l65.6-65-65.6-65.1c-4.7-4.7-4.7-12.3 0-17l39.6-39.6c4.7-4.7 12.3-4.7 17 0l65 65.7 65.1-65.6c4.7-4.7 12.3-4.7 17 0l39.6 39.6c4.7 4.7 4.7 12.3 0 17L312 256l65.6 65.1z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                className="add-label-btn "
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  className="add-label-btn-icon"
+                  fill="#06c"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                  />
+                </svg>
+                <div
+                  className="add-label-btn-text"
+                >
+                  Add another label
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </dd>
+    </dl>
+  </div>
+</div>
+`;

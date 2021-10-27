@@ -1,0 +1,660 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResourceOverview ResourceOverview renders  1`] = `
+<div
+  className="overview-content"
+  id="resource-overview"
+>
+  <div
+    className="app-info-and-dashboard-links"
+  >
+    <span
+      className="app-info-and-dashboard-links-separator-f"
+    />
+  </div>
+  <div
+    className="overview-content-bottom overview-content-with-padding"
+  >
+    <div
+      className="overview-cards-container"
+    >
+      <article
+        className="pf-c-card pf-m-expanded"
+        data-ouia-component-id="OUIA-Generated-Card-1"
+        data-ouia-component-type="PF4/Card"
+        data-ouia-safe={true}
+        id=""
+      >
+        <div
+          className="pf-c-card__header makeStyles-header-2"
+          onClick={[Function]}
+        >
+          <div
+            className="pf-c-card__header-toggle"
+          >
+            <button
+              aria-disabled={false}
+              aria-expanded={true}
+              aria-label="Toggle details"
+              className="pf-c-button pf-m-plain"
+              data-ouia-component-id="OUIA-Generated-Button-plain-1"
+              data-ouia-component-type="PF4/Button"
+              data-ouia-safe={true}
+              disabled={false}
+              id="toggle-button"
+              onClick={[Function]}
+              role={null}
+              type="button"
+            >
+              <span
+                className="pf-c-card__header-toggle-icon"
+              >
+                <svg
+                  aria-hidden="true"
+                  aria-labelledby={null}
+                  fill="currentColor"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 256 512"
+                  width="1em"
+                >
+                  <path
+                    d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+                  />
+                </svg>
+              </span>
+            </button>
+          </div>
+          <div
+            className="pf-c-card__title"
+          >
+            Details
+          </div>
+        </div>
+        <div
+          className="pf-c-card__expandable-content makeStyles-body-3"
+        >
+          <div
+            className="pf-c-card__body"
+          >
+            <div
+              className="pf-l-grid pf-m-all-12-col-on-sm pf-m-all-6-col-on-md"
+            >
+              <div
+                className="pf-l-grid__item makeStyles-leftCol-1"
+              >
+                <dl
+                  className="pf-c-description-list pf-m-horizontal"
+                >
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        Name
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="app-name-container"
+                        >
+                          <div
+                            className="app-name"
+                          >
+                            samplebook-gbapp
+                          </div>
+                          <div
+                            className="pf-c-skeleton loading-skeleton-text"
+                            style={
+                              Object {
+                                "--pf-c-skeleton--Height": undefined,
+                                "--pf-c-skeleton--Width": "30%",
+                              }
+                            }
+                          >
+                            <span
+                              className="pf-u-screen-reader"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        Namespace
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        Created
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                         
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "10%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              <div
+                className="pf-l-grid__item"
+              >
+                <dl
+                  className="pf-c-description-list pf-m-horizontal"
+                >
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        Clusters
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        Cluster resource status
+                         
+                        <svg
+                          aria-hidden={true}
+                          aria-labelledby={null}
+                          className="help-icon"
+                          fill="currentColor"
+                          height="1em"
+                          role="img"
+                          style={
+                            Object {
+                              "verticalAlign": "-0.125em",
+                            }
+                          }
+                          viewBox="0 0 512 512"
+                          width="1em"
+                        >
+                          <path
+                            d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"
+                          />
+                        </svg>
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                  <div
+                    className="pf-c-description-list__group"
+                  >
+                    <dt
+                      className="pf-c-description-list__term"
+                    >
+                      <span
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                         
+                      </span>
+                    </dt>
+                    <dd
+                      className="pf-c-description-list__description"
+                    >
+                      <div
+                        className="pf-c-description-list__text"
+                      >
+                        <div
+                          className="pf-c-skeleton loading-skeleton-text"
+                          style={
+                            Object {
+                              "--pf-c-skeleton--Height": undefined,
+                              "--pf-c-skeleton--Width": "30%",
+                            }
+                          }
+                        >
+                          <span
+                            className="pf-u-screen-reader"
+                          />
+                        </div>
+                      </div>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+      <div
+        className="overview-cards-subs-section"
+      >
+        
+        <button
+          aria-disabled={true}
+          aria-label={null}
+          className="pf-c-button pf-m-secondary pf-m-disabled toggle-subs-btn"
+          data-ouia-component-id="OUIA-Generated-Button-secondary-1"
+          data-ouia-component-type="PF4/Button"
+          data-ouia-safe={true}
+          data-test-subscription-details={false}
+          disabled={true}
+          onClick={[Function]}
+          role={null}
+          tabIndex={null}
+          type="button"
+        >
+          <div
+            className="pf-c-skeleton loading-skeleton-text"
+            style={
+              Object {
+                "--pf-c-skeleton--Height": undefined,
+                "--pf-c-skeleton--Width": "70%",
+              }
+            }
+          >
+            <span
+              className="pf-u-screen-reader"
+            />
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="overview-content-bottom overview-content-with-padding"
+  >
+    <div
+      className="resourceDiagramSourceContainer"
+    >
+      <div
+        className="topology-controls"
+      >
+        <div
+          className="topology-control-container"
+        >
+          <div
+            id="search-textbox-portal-id"
+          />
+        </div>
+      </div>
+      <div
+        className="resource-toolbar"
+        id="resource-toolbar"
+      >
+        <div
+          className="resource-toolbar-container"
+        >
+          <div
+            className="resource-toolbar-buttons"
+          >
+            <div
+              id="assorted-filter-open-portal-id"
+            />
+          </div>
+          <div
+            id="assorted-filter-close-portal-id"
+          />
+        </div>
+      </div>
+      <div
+        className="resourceDiagramControlsContainer"
+      >
+        <div
+          className="diagram-title"
+        >
+          Resource topology
+          <svg
+            className="diagram-title-divider"
+          >
+            <rect />
+          </svg>
+          <span
+            className="how-to-read-text"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            How to read topology
+            <svg
+              className="how-to-read-icon"
+            >
+              <use
+                href="#diagramIcons_sidecar"
+              />
+            </svg>
+          </span>
+        </div>
+        <div
+          className="topologyDiagramContainer"
+        >
+          <div
+            className="diagramViewerDiagram"
+          >
+            <div
+              className="diagramViewerContainerContainer"
+              id="diagram-viewer-container-container"
+            >
+              <div
+                aria-label="zoom"
+                className="diagramViewerContainer"
+                role="region"
+                style={
+                  Object {
+                    "height": "100%",
+                    "width": "100%",
+                  }
+                }
+              >
+                <svg
+                  className="topologyDiagram"
+                  id="topologySvgId"
+                  style={
+                    Object {
+                      "pointerEvents": "none",
+                    }
+                  }
+                />
+              </div>
+              <div
+                className="secondaryLoad"
+              >
+                <span
+                  aria-valuetext="Loading..."
+                  className="pf-c-spinner pf-m-xl"
+                  role="progressbar"
+                >
+                  <span
+                    className="pf-c-spinner__clipper"
+                  />
+                  <span
+                    className="pf-c-spinner__lead-ball"
+                  />
+                  <span
+                    className="pf-c-spinner__tail-ball"
+                  />
+                </span>
+              </div>
+              <div
+                className="layoutLoadingContainer"
+              >
+                <span
+                  aria-valuetext="Loading..."
+                  className="pf-c-spinner pf-m-xl"
+                  role="progressbar"
+                >
+                  <span
+                    className="pf-c-spinner__clipper"
+                  />
+                  <span
+                    className="pf-c-spinner__lead-ball"
+                  />
+                  <span
+                    className="pf-c-spinner__tail-ball"
+                  />
+                </span>
+              </div>
+            </div>
+            <span
+              className="diagramControls"
+            >
+              <div
+                className="diagram-controls"
+              >
+                <div
+                  aria-label="Zoom in"
+                  className="zoom-in-button rectangle-zoom"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                  title="Zoom in"
+                >
+                  <svg
+                    className="icon"
+                  >
+                    <use
+                      href="#diagramIcons_zoomIn"
+                    />
+                  </svg>
+                </div>
+                <div
+                  aria-label="Zoom out"
+                  className="zoom-out-button rectangle-zoom"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                  title="Zoom out"
+                >
+                  <svg
+                    className="icon"
+                  >
+                    <use
+                      href="#diagramIcons_zoomOut"
+                    />
+                  </svg>
+                </div>
+                <div
+                  aria-label="Zoom to fit"
+                  className="zoom-target-button rectangle-zoom"
+                  onClick={[Function]}
+                  onKeyPress={[Function]}
+                  role="button"
+                  tabIndex="0"
+                  title="Zoom to fit"
+                >
+                  <svg
+                    className="icon_target"
+                  >
+                    <use
+                      href="#diagramIcons_zoomTarget"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,63 @@
+---
+git:
+  data:
+    - enable: true
+      name: ui-git
+      type: git
+      successNumber: 3 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      new: # used when we add new subscriptions after app creation
+        - url: https://dummy/insecureSkipVerifyOption
+          username: ""
+          token: ""
+          branch: main
+          path: mortgagedc
+          insecureSkipVerifyOption: true
+          timeWindow:
+            setting: true
+            type: activeinterval
+            date:
+              - Thursday
+              - Friday
+            hours:
+              - start: "09:00am"
+                end: "12:00pm"
+              - start: "3:00pm"
+                end: "6:00pm"
+          deployment:
+            existing: true
+            local: false
+            online: false
+            matchingLabel: false
+      config:
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: main
+          path: helloworld
+          gitReconcileOption: merge
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["pod", "service"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: main
+          path: mortgagepod
+          timeWindow:
+            setting: true
+            type: activeinterval
+            date:
+              - Thursday
+              - Friday
+            hours:
+              - start: "09:10am"
+                end: "09:11am"
+              - start: "3:10pm"
+                end: "3:11pm"
+          deployment:
+            local: true
+            online: false
+            matchingLabel: false

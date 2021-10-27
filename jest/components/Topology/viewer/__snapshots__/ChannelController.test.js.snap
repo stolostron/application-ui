@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChannelController components 1 default 1`] = `ShallowWrapper {}`;
+
+exports[`ChannelController components 2 ChannelController components 2 1`] = `ShallowWrapper {}`;
+
+exports[`ChannelController with noAllChannels default 1`] = `ShallowWrapper {}`;

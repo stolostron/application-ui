@@ -1,0 +1,560 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DetailsView 1 pod details render as expected 1`] = `
+<section
+  className="topologyDetails"
+>
+  <div
+    className="detailsHeader"
+  >
+    <div
+      className="detailsIconContainer"
+    >
+      <svg
+        height="58px"
+        viewBox="0 0 58 58"
+        width="58px"
+      >
+        <use
+          className="container detailsIcon"
+          href="#diagramShapes_cluster"
+        />
+      </svg>
+    </div>
+    <div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Cluster
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="titleNameText"
+        >
+          
+        </span>
+      </div>
+      <div
+        className="openSearchLink"
+      >
+        <div
+          className="sectionContent"
+        >
+          <span
+            className="link "
+            id="linkForNodeAction"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            Launch resource in Search
+            <svg
+              height="12px"
+              style={
+                Object {
+                  "marginLeft": "8px",
+                  "stroke": "#0066CC",
+                }
+              }
+              width="12px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_open-new-tab"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+    <svg
+      aria-hidden={true}
+      aria-labelledby={null}
+      className="closeIcon"
+      description="Close topology details view"
+      fill="currentColor"
+      height="1em"
+      onClick={[MockFunction]}
+      role="img"
+      style={
+        Object {
+          "verticalAlign": "-0.125em",
+        }
+      }
+      viewBox="0 0 352 512"
+      width="1em"
+    >
+      <path
+        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+      />
+    </svg>
+  </div>
+  <hr />
+  <div
+    className="details-view-container"
+    style={
+      Object {
+        "height": "100%",
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "height": "calc(100vh - 370px)",
+          "left": 0,
+          "marginBottom": 0,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <div
+        className="sectionContent borderLeft"
+      >
+        <span
+          className="label sectionLabel"
+        >
+          Type:
+           
+        </span>
+        <span
+          className="value"
+        >
+          deployment
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Pod details for {0}
+           
+        </span>
+        <span
+          className="value"
+        />
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="link "
+          id="linkForNodeAction"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          http://mortgage-app-mortgage
+          <svg
+            height="12px"
+            style={
+              Object {
+                "marginLeft": "8px",
+                "stroke": "#0066CC",
+              }
+            }
+            width="12px"
+          >
+            <use
+              className="label-icon"
+              href="#diagramIcons_carbonLaunch"
+            />
+          </svg>
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="link "
+          id="linkForNodeAction"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex="0"
+        >
+          mortgage-app-mortgage
+          <svg
+            height="12px"
+            style={
+              Object {
+                "marginLeft": "8px",
+                "stroke": "#0066CC",
+              }
+            }
+            width="12px"
+          >
+            <use
+              className="label-icon"
+              href="#diagramIcons_carbonLaunch"
+            />
+          </svg>
+        </span>
+      </div>
+      <div
+        className="sectionContent borderLeft"
+      >
+        <span
+          className="label sectionLabel"
+        >
+          undefined:
+           
+        </span>
+        <span
+          className="value"
+        >
+          localcluster
+        </span>
+      </div>
+      <div
+        className="sectionContent borderLeft"
+      >
+        <span
+          className="label sectionLabel"
+        >
+          Host and Pod IP:
+           
+        </span>
+        <span
+          className="value"
+        >
+          10.16.44.146
+        </span>
+      </div>
+      <div
+        className="sectionContent borderLeft"
+      >
+        <span
+          className="label sectionLabel"
+        >
+          undefined:
+           
+        </span>
+        <span
+          className="value"
+        >
+          10.254.12.220
+        </span>
+      </div>
+      <div
+        className="sectionContent borderLeft"
+      >
+        <span
+          className="label sectionLabel"
+        >
+          Created:
+           
+        </span>
+        <span
+          className="value"
+        >
+          5 days ago
+        </span>
+      </div>
+      <div
+        className="sectionContent borderLeft"
+      >
+        <span
+          className="label sectionLabel"
+        >
+          Status:
+           
+        </span>
+        <span
+          className="value"
+        >
+          Running
+        </span>
+      </div>
+      <div
+        className="sectionContent borderLeft"
+      >
+        <span
+          className="label sectionLabel"
+        >
+          Restarts:
+           
+        </span>
+        <span
+          className="value"
+        >
+          1
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <div
+          className="spacer"
+        />
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        className="details-view-scrollbar"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</section>
+`;
+
+exports[`DetailsView no components renders as expected 1`] = `
+<section
+  className="topologyDetails"
+>
+  <div
+    className="detailsHeader"
+  >
+    <div
+      className="detailsIconContainer"
+    >
+      <svg
+        height="58px"
+        viewBox="0 0 58 58"
+        width="58px"
+      >
+        <use
+          className="default detailsIcon"
+          href="#diagramShapes_other"
+        />
+      </svg>
+    </div>
+    <div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+          Deployment
+        </span>
+      </div>
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="titleNameText"
+        >
+          name
+        </span>
+      </div>
+      <div
+        className="openSearchLink"
+      >
+        <div
+          className="sectionContent"
+        >
+          <span
+            className="link "
+            id="linkForNodeAction"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex="0"
+          >
+            Launch resource in Search
+            <svg
+              height="12px"
+              style={
+                Object {
+                  "marginLeft": "8px",
+                  "stroke": "#0066CC",
+                }
+              }
+              width="12px"
+            >
+              <use
+                className="label-icon"
+                href="#diagramIcons_open-new-tab"
+              />
+            </svg>
+          </span>
+        </div>
+      </div>
+    </div>
+    <svg
+      aria-hidden={true}
+      aria-labelledby={null}
+      className="closeIcon"
+      description="Close topology details view"
+      fill="currentColor"
+      height="1em"
+      onClick={[MockFunction]}
+      role="img"
+      style={
+        Object {
+          "verticalAlign": "-0.125em",
+        }
+      }
+      viewBox="0 0 352 512"
+      width="1em"
+    >
+      <path
+        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+      />
+    </svg>
+  </div>
+  <hr />
+  <div
+    className="details-view-container"
+    style={
+      Object {
+        "height": "100%",
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "height": "calc(100vh - 370px)",
+          "left": 0,
+          "marginBottom": 0,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <div
+        className="sectionContent"
+      >
+        <span
+          className="label"
+        >
+           
+        </span>
+        <span
+          className="value"
+        />
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        className="details-view-scrollbar"
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</section>
+`;

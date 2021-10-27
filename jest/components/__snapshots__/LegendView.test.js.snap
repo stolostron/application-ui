@@ -1,0 +1,487 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LegendView no nodes renders as expected 1`] = `
+<section
+  className="topologyDetails"
+>
+  <div>
+    <svg
+      aria-hidden={true}
+      aria-labelledby={null}
+      className="closeIcon"
+      description="Close topology legend view"
+      fill="currentColor"
+      height="1em"
+      onClick={[MockFunction]}
+      role="img"
+      style={
+        Object {
+          "verticalAlign": "-0.125em",
+        }
+      }
+      viewBox="0 0 352 512"
+      width="1em"
+    >
+      <path
+        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+      />
+    </svg>
+    <hr
+      style={
+        Object {
+          "marginBottom": "20px",
+          "visibility": "hidden",
+        }
+      }
+    />
+  </div>
+  <div
+    className="legend-view-container"
+    style={
+      Object {
+        "height": "100%",
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "height": "calc(100vh - 300px)",
+          "left": 0,
+          "marginBottom": 0,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <div
+        className="legendHeader"
+      >
+        <div>
+          <div
+            className="titleText"
+          >
+            How to read topology
+          </div>
+          <div
+            className="bodyText"
+          >
+            The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.
+          </div>
+          <div
+            style={
+              Object {
+                "textAlign": "center",
+              }
+            }
+          >
+            <svg>
+              <use
+                className="label-icon"
+                href="#diagramShapes_legend"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div
+        className="legendBody"
+      >
+        <div>
+          <div
+            className="titleText"
+          >
+            Status icon legend
+          </div>
+          <div
+            className="titleNoteText"
+          >
+            Note: Resources that you do not have permission to view display a status of "Not deployed".
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#3E8635"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_success"
+                />
+              </svg>
+            </div>
+            <div>
+              All resources in this group have deployed on the target clusters, although their status might not be successful.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#878D96"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_pending"
+                />
+              </svg>
+            </div>
+            <div>
+              None of the resources in this group deployed.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#F0AB00"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_warning"
+                />
+              </svg>
+            </div>
+            <div>
+              Some resources in this group did not deploy. Other resources deployed successfully.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#C9190B"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_failure"
+                />
+              </svg>
+            </div>
+            <div>
+              Some resources in this group are in error state.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            For more details and logs, click on the nodes to open the properties view.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</section>
+`;
+
+exports[`LegendView with nodes render as expected 1`] = `
+<section
+  className="topologyDetails"
+>
+  <div>
+    <svg
+      aria-hidden={true}
+      aria-labelledby={null}
+      className="closeIcon"
+      description="Close topology legend view"
+      fill="currentColor"
+      height="1em"
+      onClick={[MockFunction]}
+      role="img"
+      style={
+        Object {
+          "verticalAlign": "-0.125em",
+        }
+      }
+      viewBox="0 0 352 512"
+      width="1em"
+    >
+      <path
+        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+      />
+    </svg>
+    <hr
+      style={
+        Object {
+          "marginBottom": "20px",
+          "visibility": "hidden",
+        }
+      }
+    />
+  </div>
+  <div
+    className="legend-view-container"
+    style={
+      Object {
+        "height": "100%",
+        "overflow": "hidden",
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "height": "calc(100vh - 300px)",
+          "left": 0,
+          "marginBottom": 0,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <div
+        className="legendHeader"
+      >
+        <div>
+          <div
+            className="titleText"
+          >
+            How to read topology
+          </div>
+          <div
+            className="bodyText"
+          >
+            The topology provides a visual representation of all the applications and resources within a project, their build status, and the components and services associated with them.
+          </div>
+          <div
+            style={
+              Object {
+                "textAlign": "center",
+              }
+            }
+          >
+            <svg>
+              <use
+                className="label-icon"
+                href="#diagramShapes_legend"
+              />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div
+        className="legendBody"
+      >
+        <div>
+          <div
+            className="titleText"
+          >
+            Status icon legend
+          </div>
+          <div
+            className="titleNoteText"
+          >
+            Note: Resources that you do not have permission to view display a status of "Not deployed".
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#3E8635"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_success"
+                />
+              </svg>
+            </div>
+            <div>
+              All resources in this group have deployed on the target clusters, although their status might not be successful.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#878D96"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_pending"
+                />
+              </svg>
+            </div>
+            <div>
+              None of the resources in this group deployed.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#F0AB00"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_warning"
+                />
+              </svg>
+            </div>
+            <div>
+              Some resources in this group did not deploy. Other resources deployed successfully.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            <div>
+              <svg
+                className="statusSvg"
+                fill="#C9190B"
+              >
+                <use
+                  className="label-icon"
+                  href="#diagramIcons_failure"
+                />
+              </svg>
+            </div>
+            <div>
+              Some resources in this group are in error state.
+            </div>
+          </div>
+          <div
+            className="bodyText"
+          >
+            For more details and logs, click on the nodes to open the properties view.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</section>
+`;

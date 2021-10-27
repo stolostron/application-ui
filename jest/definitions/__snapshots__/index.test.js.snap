@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`definitions/index tests should return the default search field of node 1`] = `"name"`;
+
+exports[`definitions/index tests should return the default sort field of node 1`] = `"name"`;
+
+exports[`definitions/index tests should return the link of node as /domain/host 1`] = `"/domain/host"`;
+
+exports[`definitions/index tests should return the link of node as /namespace/name 1`] = `"/namespace/name"`;
+
+exports[`definitions/index tests should return the primary key of node 1`] = `"_uid"`;
+
+exports[`definitions/index tests should return the resource data for specified resource 1`] = `
+Object {
+  "defaultSortField": "name",
+  "emptyMessage": [Function],
+  "emptyTitle": [Function],
+  "groupFn": [Function],
+  "groupSummaryFn": [Function],
+  "keyFn": [Function],
+  "pluralKey": "table.plural.application",
+  "primaryKey": "_uid",
+  "tableActionsResolver": [Function],
+  "tableDropdown": Object {
+    "actions": Array [
+      Object {
+        "msgKey": "application.type.acm",
+        "path": "undefined/create",
+      },
+      Object {
+        "label": "creation.app.section.techPreview",
+        "labelColor": "creation.app.section.techPreview.color",
+        "msgKey": "application.type.argo",
+        "path": "undefined/argoappset",
+      },
+    ],
+    "disableMsgKey": "actions.create.application.access.denied",
+    "msgKey": "actions.create.application",
+  },
+  "tableFilter": Object {
+    "labelKey": "table.filter.type.acm.application.label",
+    "options": Array [
+      Object {
+        "labelKey": "table.filter.type.acm.application",
+        "valueKey": "table.filter.type.acm.application.value",
+      },
+      Object {
+        "labelKey": "table.filter.type.argo.application",
+        "valueKey": "table.filter.type.argo.application.value",
+      },
+    ],
+    "tableFilterFn": [Function],
+  },
+  "tableKeys": Array [
+    Object {
+      "msgKey": "table.header.name",
+      "resourceKey": "name",
+      "textFunction": [Function],
+      "transformFunction": [Function],
+      "transforms": Array [
+        [Function],
+      ],
+    },
+    Object {
+      "disabled": [Function],
+      "msgKey": "table.header.type",
+      "resourceKey": "type",
+      "textFunction": [Function],
+      "transformFunction": [Function],
+      "transforms": Array [
+        [Function],
+      ],
+    },
+    Object {
+      "msgKey": "table.header.namespace",
+      "resourceKey": "namespace",
+      "textFunction": [Function],
+      "tooltipKey": "table.header.application.namespace.tooltip",
+      "transformFunction": [Function],
+      "transforms": Array [
+        [Function],
+      ],
+    },
+    Object {
+      "disabled": [Function],
+      "msgKey": "table.header.clusters",
+      "resourceKey": "clusterCount",
+      "textFunction": [Function],
+      "tooltipKey": "table.header.application.clusters.tooltip",
+      "transformFunction": [Function],
+    },
+    Object {
+      "disabled": [Function],
+      "msgKey": "table.header.resource",
+      "resourceKey": "hubChannels",
+      "textFunction": [Function],
+      "tooltipKey": "table.header.application.resource.tooltip",
+      "transformFunction": [Function],
+    },
+    Object {
+      "disabled": [Function],
+      "msgKey": "table.header.timeWindow",
+      "resourceKey": "hubSubscriptions",
+      "textFunction": [Function],
+      "tooltipKey": "table.header.application.timeWindow.tooltip",
+      "transformFunction": [Function],
+    },
+    Object {
+      "msgKey": "table.header.created",
+      "resourceKey": "created",
+      "transformFunction": [Function],
+    },
+  ],
+  "uriKey": "name",
+}
+`;
+
+exports[`definitions/index tests should return the secondary key of node 1`] = `"cluster"`;
+
+exports[`definitions/index tests should return the table keys for this node 1`] = `
+Array [
+  Object {
+    "msgKey": "table.header.name",
+    "resourceKey": "name",
+    "textFunction": [Function],
+    "transformFunction": [Function],
+    "transforms": Array [
+      [Function],
+    ],
+  },
+  Object {
+    "disabled": [Function],
+    "msgKey": "table.header.type",
+    "resourceKey": "type",
+    "textFunction": [Function],
+    "transformFunction": [Function],
+    "transforms": Array [
+      [Function],
+    ],
+  },
+  Object {
+    "msgKey": "table.header.namespace",
+    "resourceKey": "namespace",
+    "textFunction": [Function],
+    "tooltipKey": "table.header.application.namespace.tooltip",
+    "transformFunction": [Function],
+    "transforms": Array [
+      [Function],
+    ],
+  },
+  Object {
+    "disabled": [Function],
+    "msgKey": "table.header.clusters",
+    "resourceKey": "clusterCount",
+    "textFunction": [Function],
+    "tooltipKey": "table.header.application.clusters.tooltip",
+    "transformFunction": [Function],
+  },
+  Object {
+    "disabled": [Function],
+    "msgKey": "table.header.resource",
+    "resourceKey": "hubChannels",
+    "textFunction": [Function],
+    "tooltipKey": "table.header.application.resource.tooltip",
+    "transformFunction": [Function],
+  },
+  Object {
+    "disabled": [Function],
+    "msgKey": "table.header.timeWindow",
+    "resourceKey": "hubSubscriptions",
+    "textFunction": [Function],
+    "tooltipKey": "table.header.application.timeWindow.tooltip",
+    "transformFunction": [Function],
+  },
+  Object {
+    "msgKey": "table.header.created",
+    "resourceKey": "created",
+    "transformFunction": [Function],
+  },
+]
+`;
+
+exports[`definitions/index tests should return the uri key of node 1`] = `"name"`;

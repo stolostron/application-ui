@@ -1,0 +1,1189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimeWindow component default, no-window selected basic UI snapshot validation 1`] = `
+<div
+  className="creation-view-controls-labels"
+>
+  <div
+    className="creation-view-controls-textarea-title"
+  />
+  <div
+    className="timeWindow-container"
+  >
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-1"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={true}
+        disabled={false}
+        id="default-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value=""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="default-mode-undefined"
+      >
+        Always active
+      </label>
+    </div>
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-2"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={false}
+        disabled={false}
+        id="active-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value="\\"active\\""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="active-mode-undefined"
+      >
+        Active within specified interval
+      </label>
+    </div>
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-3"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={false}
+        disabled={false}
+        id="blocked-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value="\\"blocked\\""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="blocked-mode-undefined"
+      >
+        Blocked within specified interval
+      </label>
+    </div>
+    <dl
+      aria-label=""
+      className="pf-c-accordion"
+    >
+      <dt>
+        <button
+          aria-expanded=""
+          className="pf-c-accordion__toggle"
+          id="time-window-header"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="pf-c-accordion__toggle-text"
+          >
+            Time window configuration
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content"
+        hidden={true}
+        id=""
+      >
+        <div
+          className="pf-c-accordion__expanded-content-body"
+        >
+          <div
+            className="timeWindow-config-container"
+            id="timeWindow-config"
+          >
+            <div
+              className="config-days-section"
+            >
+              <div
+                className="config-title"
+              >
+                Days of the week
+                 
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
+              </div>
+              <div
+                className="config-descr"
+              >
+                Select at least one day to create a time window.
+              </div>
+              <div
+                className="config-days-selector"
+              >
+                <div
+                  className="first-col"
+                >
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-1"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="mon-undefined"
+                      name="days-selector-mon"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Monday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="mon-undefined"
+                    >
+                      Monday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-2"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="tue-undefined"
+                      name="days-selector-tue"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Tuesday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="tue-undefined"
+                    >
+                      Tuesday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-3"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="wed-undefined"
+                      name="days-selector-wed"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Wednesday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="wed-undefined"
+                    >
+                      Wednesday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-4"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="thu-undefined"
+                      name="days-selector-thu"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Thursday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="thu-undefined"
+                    >
+                      Thursday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-5"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="fri-undefined"
+                      name="days-selector-fri"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Friday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="fri-undefined"
+                    >
+                      Friday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-6"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="sat-undefined"
+                      name="days-selector-sat"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Saturday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="sat-undefined"
+                    >
+                      Saturday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-7"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="sun-undefined"
+                      name="days-selector-sun"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Sunday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="sun-undefined"
+                    >
+                      Sunday
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="config-timezone-section"
+            >
+              <div
+                className="config-title"
+              >
+                Time zone
+                 
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
+              </div>
+              <div
+                className="pf-c-select config-timezone-combo-box"
+                data-ouia-component-id="OUIA-Generated-Select-typeahead-1"
+                data-ouia-component-type="PF4/Select"
+                data-ouia-safe={true}
+              >
+                <div
+                  className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                >
+                  <div
+                    className="pf-c-select__toggle-wrapper"
+                  >
+                    <input
+                      aria-activedescendant={null}
+                      aria-label=""
+                      autoComplete="off"
+                      className="pf-c-form-control pf-c-select__toggle-typeahead"
+                      disabled={true}
+                      id="pf-select-toggle-id-0-select-typeahead"
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      placeholder=""
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup="listbox"
+                    aria-label="Options menu"
+                    aria-labelledby=" pf-select-toggle-id-0"
+                    className="pf-c-button pf-c-select__toggle-button pf-m-plain"
+                    disabled={true}
+                    id="pf-select-toggle-id-0"
+                    onClick={[Function]}
+                    tabIndex={-1}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      aria-labelledby={null}
+                      className="pf-c-select__toggle-arrow"
+                      fill="currentColor"
+                      height="1em"
+                      role="img"
+                      style={
+                        Object {
+                          "verticalAlign": "-0.125em",
+                        }
+                      }
+                      viewBox="0 0 320 512"
+                      width="1em"
+                    >
+                      <path
+                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              className="config-time-section"
+            >
+              <div
+                className="time-picker-title"
+              >
+                <div
+                  className="config-title"
+                >
+                  Start Time
+                   
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
+                </div>
+                <div
+                  className="config-title"
+                >
+                  End Time
+                   
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
+                </div>
+              </div>
+              <div
+                className="config-time-container"
+              >
+                <div
+                  className="config-input-time"
+                >
+                  <div
+                    className="pf-c-date-picker"
+                  >
+                    <div
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
+                    >
+                      <div
+                        className="pf-c-input-group"
+                      >
+                        <div
+                          className="pf-c-select"
+                          id="start-time-0-undefined"
+                        >
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              data-ouia-component-id="OUIA-Generated-TextInputBase-1"
+                              data-ouia-component-type="PF4/TextInput"
+                              data-ouia-safe={true}
+                              disabled={true}
+                              id="start-time-0-undefined-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="config-input-time"
+                >
+                  <div
+                    className="pf-c-date-picker"
+                  >
+                    <div
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
+                    >
+                      <div
+                        className="pf-c-input-group"
+                      >
+                        <div
+                          className="pf-c-select"
+                          id="end-time-0-undefined"
+                        >
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              data-ouia-component-id="OUIA-Generated-TextInputBase-2"
+                              data-ouia-component-type="PF4/TextInput"
+                              data-ouia-safe={true}
+                              disabled={true}
+                              id="end-time-0-undefined-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div
+                className="add-time-btn btn-disabled"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  className="add-time-btn-icon"
+                  fill="#06c"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                  />
+                </svg>
+                <div
+                  className="add-time-btn-text"
+                >
+                  Add another time range
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </dd>
+    </dl>
+  </div>
+</div>
+`;
+
+exports[`TimeWindow component default, window selected snapshot validation with time window set 1`] = `
+<div
+  className="creation-view-controls-labels"
+>
+  <div
+    className="creation-view-controls-textarea-title"
+  />
+  <div
+    className="timeWindow-container"
+  >
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-4"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={true}
+        disabled={false}
+        id="default-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value=""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="default-mode-undefined"
+      >
+        Always active
+      </label>
+    </div>
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-5"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={false}
+        disabled={false}
+        id="active-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value="\\"active\\""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="active-mode-undefined"
+      >
+        Active within specified interval
+      </label>
+    </div>
+    <div
+      className="pf-c-radio mode-btn"
+    >
+      <input
+        aria-invalid={false}
+        className="pf-c-radio__input"
+        data-ouia-component-id="OUIA-Generated-Radio-6"
+        data-ouia-component-type="PF4/Radio"
+        data-ouia-safe={true}
+        defaultChecked={false}
+        disabled={false}
+        id="blocked-mode-undefined"
+        name="timeWindow-mode-container-undefined"
+        onChange={[Function]}
+        type="radio"
+        value="\\"blocked\\""
+      />
+      <label
+        className="pf-c-radio__label"
+        htmlFor="blocked-mode-undefined"
+      >
+        Blocked within specified interval
+      </label>
+    </div>
+    <dl
+      aria-label=""
+      className="pf-c-accordion"
+    >
+      <dt>
+        <button
+          aria-expanded=""
+          className="pf-c-accordion__toggle"
+          id="time-window-header"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="pf-c-accordion__toggle-text"
+          >
+            Time window configuration
+          </span>
+          <span
+            className="pf-c-accordion__toggle-icon"
+          >
+            <svg
+              aria-hidden={true}
+              aria-labelledby={null}
+              fill="currentColor"
+              height="1em"
+              role="img"
+              style={
+                Object {
+                  "verticalAlign": "-0.125em",
+                }
+              }
+              viewBox="0 0 256 512"
+              width="1em"
+            >
+              <path
+                d="M224.3 273l-136 136c-9.4 9.4-24.6 9.4-33.9 0l-22.6-22.6c-9.4-9.4-9.4-24.6 0-33.9l96.4-96.4-96.4-96.4c-9.4-9.4-9.4-24.6 0-33.9L54.3 103c9.4-9.4 24.6-9.4 33.9 0l136 136c9.5 9.4 9.5 24.6.1 34z"
+              />
+            </svg>
+          </span>
+        </button>
+      </dt>
+      <dd
+        aria-label=""
+        className="pf-c-accordion__expanded-content"
+        hidden={true}
+        id=""
+      >
+        <div
+          className="pf-c-accordion__expanded-content-body"
+        >
+          <div
+            className="timeWindow-config-container"
+            id="timeWindow-config"
+          >
+            <div
+              className="config-days-section"
+            >
+              <div
+                className="config-title"
+              >
+                Days of the week
+                 
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
+              </div>
+              <div
+                className="config-descr"
+              >
+                Select at least one day to create a time window.
+              </div>
+              <div
+                className="config-days-selector"
+              >
+                <div
+                  className="first-col"
+                >
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-8"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="mon-undefined"
+                      name="days-selector-mon"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Monday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="mon-undefined"
+                    >
+                      Monday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-9"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="tue-undefined"
+                      name="days-selector-tue"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Tuesday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="tue-undefined"
+                    >
+                      Tuesday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-10"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="wed-undefined"
+                      name="days-selector-wed"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Wednesday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="wed-undefined"
+                    >
+                      Wednesday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-11"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="thu-undefined"
+                      name="days-selector-thu"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Thursday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="thu-undefined"
+                    >
+                      Thursday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-12"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="fri-undefined"
+                      name="days-selector-fri"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Friday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="fri-undefined"
+                    >
+                      Friday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-13"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="sat-undefined"
+                      name="days-selector-sat"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Saturday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="sat-undefined"
+                    >
+                      Saturday
+                    </label>
+                  </div>
+                  <div
+                    className="pf-c-check"
+                  >
+                    <input
+                      aria-invalid={false}
+                      checked={false}
+                      className="pf-c-check__input"
+                      data-ouia-component-id="OUIA-Generated-Checkbox-14"
+                      data-ouia-component-type="PF4/Checkbox"
+                      data-ouia-safe={true}
+                      disabled={true}
+                      id="sun-undefined"
+                      name="days-selector-sun"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="\\"Sunday\\""
+                    />
+                    <label
+                      className="pf-c-check__label pf-m-disabled"
+                      htmlFor="sun-undefined"
+                    >
+                      Sunday
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              className="config-timezone-section"
+            >
+              <div
+                className="config-title"
+              >
+                Time zone
+                 
+                <div
+                  className="config-title-required"
+                >
+                  *
+                </div>
+              </div>
+              <div
+                className="pf-c-select config-timezone-combo-box"
+                data-ouia-component-id="OUIA-Generated-Select-typeahead-2"
+                data-ouia-component-type="PF4/Select"
+                data-ouia-safe={true}
+              >
+                <div
+                  className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                  onClick={[Function]}
+                  onKeyDown={[Function]}
+                >
+                  <div
+                    className="pf-c-select__toggle-wrapper"
+                  >
+                    <input
+                      aria-activedescendant={null}
+                      aria-label=""
+                      autoComplete="off"
+                      className="pf-c-form-control pf-c-select__toggle-typeahead"
+                      disabled={true}
+                      id="pf-select-toggle-id-1-select-typeahead"
+                      onChange={[Function]}
+                      onClick={[Function]}
+                      placeholder=""
+                      type="text"
+                      value=""
+                    />
+                  </div>
+                  <button
+                    aria-expanded={false}
+                    aria-haspopup="listbox"
+                    aria-label="Options menu"
+                    aria-labelledby=" pf-select-toggle-id-1"
+                    className="pf-c-button pf-c-select__toggle-button pf-m-plain"
+                    disabled={true}
+                    id="pf-select-toggle-id-1"
+                    onClick={[Function]}
+                    tabIndex={-1}
+                    type="button"
+                  >
+                    <svg
+                      aria-hidden={true}
+                      aria-labelledby={null}
+                      className="pf-c-select__toggle-arrow"
+                      fill="currentColor"
+                      height="1em"
+                      role="img"
+                      style={
+                        Object {
+                          "verticalAlign": "-0.125em",
+                        }
+                      }
+                      viewBox="0 0 320 512"
+                      width="1em"
+                    >
+                      <path
+                        d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div
+              className="config-time-section"
+            >
+              <div
+                className="time-picker-title"
+              >
+                <div
+                  className="config-title"
+                >
+                  Start Time
+                   
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
+                </div>
+                <div
+                  className="config-title"
+                >
+                  End Time
+                   
+                  <div
+                    className="config-title-required"
+                  >
+                    *
+                  </div>
+                </div>
+              </div>
+              <div
+                className="config-time-container"
+              >
+                <div
+                  className="config-input-time"
+                >
+                  <div
+                    className="pf-c-date-picker"
+                  >
+                    <div
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
+                    >
+                      <div
+                        className="pf-c-input-group"
+                      >
+                        <div
+                          className="pf-c-select"
+                          id="start-time-0-undefined"
+                        >
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              data-ouia-component-id="OUIA-Generated-TextInputBase-3"
+                              data-ouia-component-type="PF4/TextInput"
+                              data-ouia-safe={true}
+                              disabled={true}
+                              id="start-time-0-undefined-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="config-input-time"
+                >
+                  <div
+                    className="pf-c-date-picker"
+                  >
+                    <div
+                      className="pf-c-date-picker__input"
+                      style={
+                        Object {
+                          "--pf-c-date-picker__input--c-form-control--Width": "140px",
+                        }
+                      }
+                    >
+                      <div
+                        className="pf-c-input-group"
+                      >
+                        <div
+                          className="pf-c-select"
+                          id="end-time-0-undefined"
+                        >
+                          <div
+                            className="pf-c-select__toggle pf-m-disabled pf-m-typeahead"
+                            style={
+                              Object {
+                                "paddingLeft": "0",
+                              }
+                            }
+                          >
+                            <input
+                              aria-invalid={false}
+                              aria-label="Time picker"
+                              autoComplete="off"
+                              className="pf-c-form-control pf-m-icon pf-m-clock pf-c-form-control pf-c-select__toggle-typeahead"
+                              data-ouia-component-id="OUIA-Generated-TextInputBase-4"
+                              data-ouia-component-type="PF4/TextInput"
+                              data-ouia-safe={true}
+                              disabled={true}
+                              id="end-time-0-undefined-input"
+                              onBlur={[Function]}
+                              onChange={[Function]}
+                              onClick={[Function]}
+                              onFocus={[Function]}
+                              placeholder="hh:mm"
+                              readOnly={false}
+                              required={false}
+                              type="text"
+                              value=""
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+              <div
+                className="add-time-btn btn-disabled"
+                onClick={[Function]}
+                onKeyPress={[Function]}
+                role="button"
+                tabIndex="0"
+              >
+                <svg
+                  aria-hidden={true}
+                  aria-labelledby={null}
+                  className="add-time-btn-icon"
+                  fill="#06c"
+                  height="1em"
+                  role="img"
+                  style={
+                    Object {
+                      "verticalAlign": "-0.125em",
+                    }
+                  }
+                  viewBox="0 0 512 512"
+                  width="1em"
+                >
+                  <path
+                    d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8zm144 276c0 6.6-5.4 12-12 12h-92v92c0 6.6-5.4 12-12 12h-56c-6.6 0-12-5.4-12-12v-92h-92c-6.6 0-12-5.4-12-12v-56c0-6.6 5.4-12 12-12h92v-92c0-6.6 5.4-12 12-12h56c6.6 0 12 5.4 12 12v92h92c6.6 0 12 5.4 12 12v56z"
+                  />
+                </svg>
+                <div
+                  className="add-time-btn-text"
+                >
+                  Add another time range
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </dd>
+    </dl>
+  </div>
+</div>
+`;

@@ -1,0 +1,447 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResourceFilterModule renders as expected 1`] = `
+<div
+  className="resource-filter-button"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  tabIndex="0"
+>
+  <svg
+    className="button-icon"
+  >
+    <use
+      href="#diagramIcons_filter"
+    />
+  </svg>
+  <div
+    className="button-label"
+  >
+    Filter
+  </div>
+</div>
+`;
+
+exports[`ResourceFilterView renders as expected 1`] = `
+<div
+  className="resource-filter-view"
+  style={
+    Object {
+      "height": 771,
+    }
+  }
+>
+  <h3
+    className="filterHeader"
+  >
+    <svg
+      className="titleIcon"
+    >
+      <use
+        href="#diagramIcons_filter"
+      />
+    </svg>
+    <div
+      className="titleText"
+    >
+      Filters
+    </div>
+    <svg
+      aria-hidden={true}
+      aria-labelledby={null}
+      className="closeIcon"
+      description="Close filter view"
+      fill="currentColor"
+      height="1em"
+      onClick={[Function]}
+      role="img"
+      style={
+        Object {
+          "verticalAlign": "-0.125em",
+        }
+      }
+      viewBox="0 0 352 512"
+      width="1em"
+    >
+      <path
+        d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+      />
+    </svg>
+  </h3>
+  <div
+    className="filter-sections-container"
+    style={
+      Object {
+        "height": 708,
+        "overflow": "hidden",
+        "position": "relative",
+        "width": 260,
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "WebkitOverflowScrolling": "touch",
+          "bottom": 0,
+          "left": 0,
+          "marginBottom": 0,
+          "marginRight": 0,
+          "overflow": "scroll",
+          "overflowX": "hidden",
+          "overflowY": "scroll",
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        }
+      }
+    >
+      <div
+        className="filter-section"
+      >
+        <div
+          className="filter-section-title"
+        >
+          Namespaces
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={true}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-1"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="namespacesall"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="namespacesall"
+          >
+            All
+          </label>
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={false}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-2"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="namespacescassandra-ns"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="namespacescassandra-ns"
+          >
+            cassandra-ns
+          </label>
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={false}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-3"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="namespacescluster-scoped"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="namespacescluster-scoped"
+          >
+            cluster-scoped
+          </label>
+        </div>
+      </div>
+      <div
+        className="filter-section"
+      >
+        <div
+          className="filter-section-title"
+        >
+          Resource status
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={false}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-4"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="resourceStatusesall"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="resourceStatusesall"
+          >
+            All
+          </label>
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={true}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-5"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="resourceStatusesred"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="resourceStatusesred"
+          >
+            Error
+          </label>
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={true}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-6"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="resourceStatusesorange"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="resourceStatusesorange"
+          >
+            Pending
+          </label>
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={false}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-7"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="resourceStatusesgreen"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="resourceStatusesgreen"
+          >
+            Success
+          </label>
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={true}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-8"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="resourceStatusesyellow"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="resourceStatusesyellow"
+          >
+            Warning
+          </label>
+        </div>
+      </div>
+      <div
+        className="filter-section"
+      >
+        <div
+          className="filter-section-title"
+        >
+          Types
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={true}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-9"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="resourceTypesall"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="resourceTypesall"
+          >
+            All
+          </label>
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={false}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-10"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="resourceTypesservice"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="resourceTypesservice"
+          >
+            service
+          </label>
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={false}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-11"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="resourceTypesstatefulset"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="resourceTypesstatefulset"
+          >
+            statefulset
+          </label>
+        </div>
+        <div
+          className="pf-c-check filter-section-checkbox"
+        >
+          <input
+            aria-invalid={false}
+            checked={false}
+            className="pf-c-check__input"
+            data-ouia-component-id="OUIA-Generated-Checkbox-12"
+            data-ouia-component-type="PF4/Checkbox"
+            data-ouia-safe={true}
+            disabled={false}
+            id="resourceTypesstorageclass"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <label
+            className="pf-c-check__label"
+            htmlFor="resourceTypesstorageclass"
+          >
+            storageclass
+          </label>
+        </div>
+      </div>
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "height": 6,
+          "left": 2,
+          "position": "absolute",
+          "right": 2,
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "height": "100%",
+            "position": "relative",
+          }
+        }
+      />
+    </div>
+    <div
+      style={
+        Object {
+          "borderRadius": 3,
+          "bottom": 2,
+          "display": "none",
+          "position": "absolute",
+          "right": 2,
+          "top": 2,
+          "width": 6,
+        }
+      }
+    >
+      <div
+        className="filter-sections-scrollbar"
+        style={
+          Object {
+            "backgroundColor": "rgba(255,255,255,.2)",
+            "borderRadius": "inherit",
+            "cursor": "pointer",
+            "display": "block",
+            "position": "relative",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

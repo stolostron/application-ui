@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`topology reducer should return a state with ERROR status 1`] = `
+Object {
+  "availableFilters": Object {
+    "clusters": Array [
+      Object {
+        "filterValues": Array [
+          "myminikube",
+        ],
+        "label": "name: myminikube",
+      },
+      Object {
+        "filterValues": Array [
+          "myminikube",
+        ],
+        "label": "clusterip: 9.42.23.217",
+      },
+      Object {
+        "filterValues": Array [
+          "myminikube",
+        ],
+        "label": "location: toronto",
+      },
+      Object {
+        "filterValues": Array [
+          "myminikube",
+        ],
+        "label": "provider: IBM",
+      },
+      Object {
+        "filterValues": Array [
+          "myminikube",
+        ],
+        "label": "purpose: test",
+      },
+      Object {
+        "filterValues": Array [
+          "myminikube",
+        ],
+        "label": "runtime: kubernetes",
+      },
+    ],
+    "labels": Array [
+      Object {
+        "label": "app: loyalty-level",
+        "name": "app",
+        "value": "loyalty-level",
+      },
+      Object {
+        "label": "solution: stock-trader",
+        "name": "solution",
+        "value": "stock-trader",
+      },
+    ],
+    "namespaces": Array [
+      Object {
+        "label": "default",
+      },
+    ],
+    "types": Array [
+      Object {
+        "label": "deployment",
+      },
+      Object {
+        "label": "host",
+      },
+      Object {
+        "label": "service",
+      },
+      Object {
+        "label": "pod",
+      },
+      Object {
+        "label": "container",
+      },
+      Object {
+        "label": "daemonset",
+      },
+      Object {
+        "label": "statefulset",
+      },
+      Object {
+        "label": "other",
+      },
+    ],
+  },
+  "filtersStatus": "DONE",
+  "otherTypeFilters": Array [],
+  "test": "test",
+}
+`;
+
+exports[`topology reducer should return a state with IN_PROGRESS status 1`] = `
+Object {
+  "filtersStatus": "IN_PROGRESS",
+  "test": "test",
+}
+`;
+
+exports[`topology reducer should return a state without status 1`] = `
+Object {
+  "test": "test",
+}
+`;
+
+exports[`topology reducer should return a state without status 2`] = `
+Object {
+  "activeFilters": Object {
+    "undefined": undefined,
+  },
+  "test": "test",
+}
+`;
+
+exports[`topology reducer with topology name should return a state with DONE status 1`] = `
+Object {
+  "activeFilters": "receivedApplication",
+  "detailsLoaded": true,
+  "links": undefined,
+  "loaded": true,
+  "nodes": undefined,
+  "reloading": false,
+  "status": "DONE",
+  "test": "test",
+  "willLoadDetails": undefined,
+}
+`;
+
+exports[`topology reducer with topology name should return a state with ERROR status 1`] = `
+Object {
+  "fetchError": undefined,
+  "links": undefined,
+  "nodes": undefined,
+  "status": "ERROR",
+  "test": "test",
+}
+`;
+
+exports[`topology reducer with topology name should return a state with IN_PROGRESS status 1`] = `
+Object {
+  "detailsReloading": false,
+  "fetchFilters": undefined,
+  "loaded": undefined,
+  "reloading": undefined,
+  "status": "IN_PROGRESS",
+  "test": "test",
+}
+`;

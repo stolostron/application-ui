@@ -1,0 +1,397 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModule renders correctly when topology is expanded---bbb 1`] = `
+<div
+  className="resourceDiagramSourceContainer"
+>
+  <div
+    className="topology-controls"
+  >
+    <div
+      className="topology-control-container"
+    >
+      <div
+        id="search-textbox-portal-id"
+      />
+    </div>
+  </div>
+  <div
+    className="resource-toolbar"
+    id="resource-toolbar"
+  >
+    <div
+      className="resource-toolbar-container"
+    >
+      <div
+        className="resource-toolbar-buttons"
+      >
+        <div
+          id="assorted-filter-open-portal-id"
+        />
+      </div>
+      <div
+        id="assorted-filter-close-portal-id"
+      />
+    </div>
+  </div>
+  <div
+    className="resourceDiagramControlsContainer"
+  >
+    <div
+      className="diagram-title"
+    >
+      Resource topology
+      <svg
+        className="diagram-title-divider"
+      >
+        <rect />
+      </svg>
+      <span
+        className="how-to-read-text"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        How to read topology
+        <svg
+          className="how-to-read-icon"
+        >
+          <use
+            href="#diagramIcons_sidecar"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      className="topologyDiagramContainer"
+    >
+      <div
+        className="diagramViewerDiagram"
+      >
+        <div
+          className="diagramViewerContainerContainer"
+          id="diagram-viewer-container-container"
+        >
+          <div
+            aria-label="zoom"
+            className="diagramViewerContainer"
+            role="region"
+            style={
+              Object {
+                "height": "100%",
+                "width": "100%",
+              }
+            }
+          >
+            <svg
+              className="topologyDiagram"
+              id="topologySvgId"
+              style={
+                Object {
+                  "pointerEvents": "none",
+                }
+              }
+            />
+          </div>
+          <div
+            className="secondaryLoad"
+          >
+            <span
+              aria-valuetext="Loading..."
+              className="pf-c-spinner pf-m-xl"
+              role="progressbar"
+            >
+              <span
+                className="pf-c-spinner__clipper"
+              />
+              <span
+                className="pf-c-spinner__lead-ball"
+              />
+              <span
+                className="pf-c-spinner__tail-ball"
+              />
+            </span>
+          </div>
+          <div
+            className="layoutLoadingContainer"
+          >
+            <span
+              aria-valuetext="Loading..."
+              className="pf-c-spinner pf-m-xl"
+              role="progressbar"
+            >
+              <span
+                className="pf-c-spinner__clipper"
+              />
+              <span
+                className="pf-c-spinner__lead-ball"
+              />
+              <span
+                className="pf-c-spinner__tail-ball"
+              />
+            </span>
+          </div>
+        </div>
+        <span
+          className="diagramControls"
+        >
+          <div
+            className="diagram-controls"
+          >
+            <div
+              aria-label="Zoom in"
+              className="zoom-in-button rectangle-zoom"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Zoom in"
+            >
+              <svg
+                className="icon"
+              >
+                <use
+                  href="#diagramIcons_zoomIn"
+                />
+              </svg>
+            </div>
+            <div
+              aria-label="Zoom out"
+              className="zoom-out-button rectangle-zoom"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Zoom out"
+            >
+              <svg
+                className="icon"
+              >
+                <use
+                  href="#diagramIcons_zoomOut"
+                />
+              </svg>
+            </div>
+            <div
+              aria-label="Zoom to fit"
+              className="zoom-target-button rectangle-zoom"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Zoom to fit"
+            >
+              <svg
+                className="icon_target"
+              >
+                <use
+                  href="#diagramIcons_zoomTarget"
+                />
+              </svg>
+            </div>
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ApplicationTopologyModule with selected node ID ApplicationTopologyModule renders correctly when topology is not expanded---aaa 1`] = `
+<div
+  className="resourceDiagramSourceContainer"
+>
+  <div
+    className="topology-controls"
+  >
+    <div
+      className="topology-control-container"
+    >
+      <div
+        id="search-textbox-portal-id"
+      />
+    </div>
+  </div>
+  <div
+    className="resource-toolbar"
+    id="resource-toolbar"
+  >
+    <div
+      className="resource-toolbar-container"
+    >
+      <div
+        className="resource-toolbar-buttons"
+      >
+        <div
+          id="assorted-filter-open-portal-id"
+        />
+      </div>
+      <div
+        id="assorted-filter-close-portal-id"
+      />
+    </div>
+  </div>
+  <div
+    className="resourceDiagramControlsContainer"
+  >
+    <div
+      className="diagram-title"
+    >
+      Resource topology
+      <svg
+        className="diagram-title-divider"
+      >
+        <rect />
+      </svg>
+      <span
+        className="how-to-read-text"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex="0"
+      >
+        How to read topology
+        <svg
+          className="how-to-read-icon"
+        >
+          <use
+            href="#diagramIcons_sidecar"
+          />
+        </svg>
+      </span>
+    </div>
+    <div
+      className="topologyDiagramContainer"
+    >
+      <div
+        className="diagramViewerDiagram"
+      >
+        <div
+          className="diagramViewerContainerContainer"
+          id="diagram-viewer-container-container"
+        >
+          <div
+            aria-label="zoom"
+            className="diagramViewerContainer"
+            role="region"
+            style={
+              Object {
+                "height": "100%",
+                "width": "100%",
+              }
+            }
+          >
+            <svg
+              className="topologyDiagram"
+              id="topologySvgId"
+              style={
+                Object {
+                  "pointerEvents": "none",
+                }
+              }
+            />
+          </div>
+          <div
+            className="secondaryLoad"
+          >
+            <span
+              aria-valuetext="Loading..."
+              className="pf-c-spinner pf-m-xl"
+              role="progressbar"
+            >
+              <span
+                className="pf-c-spinner__clipper"
+              />
+              <span
+                className="pf-c-spinner__lead-ball"
+              />
+              <span
+                className="pf-c-spinner__tail-ball"
+              />
+            </span>
+          </div>
+          <div
+            className="layoutLoadingContainer"
+          >
+            <span
+              aria-valuetext="Loading..."
+              className="pf-c-spinner pf-m-xl"
+              role="progressbar"
+            >
+              <span
+                className="pf-c-spinner__clipper"
+              />
+              <span
+                className="pf-c-spinner__lead-ball"
+              />
+              <span
+                className="pf-c-spinner__tail-ball"
+              />
+            </span>
+          </div>
+        </div>
+        <span
+          className="diagramControls"
+        >
+          <div
+            className="diagram-controls"
+          >
+            <div
+              aria-label="Zoom in"
+              className="zoom-in-button rectangle-zoom"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Zoom in"
+            >
+              <svg
+                className="icon"
+              >
+                <use
+                  href="#diagramIcons_zoomIn"
+                />
+              </svg>
+            </div>
+            <div
+              aria-label="Zoom out"
+              className="zoom-out-button rectangle-zoom"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Zoom out"
+            >
+              <svg
+                className="icon"
+              >
+                <use
+                  href="#diagramIcons_zoomOut"
+                />
+              </svg>
+            </div>
+            <div
+              aria-label="Zoom to fit"
+              className="zoom-target-button rectangle-zoom"
+              onClick={[Function]}
+              onKeyPress={[Function]}
+              role="button"
+              tabIndex="0"
+              title="Zoom to fit"
+            >
+              <svg
+                className="icon_target"
+              >
+                <use
+                  href="#diagramIcons_zoomTarget"
+                />
+              </svg>
+            </div>
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

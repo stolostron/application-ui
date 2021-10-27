@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilterTag component renders as expected 1`] = `
+<button
+  className="selectedTag1"
+  onClick={[Function]}
+  type="button"
+>
+  <span
+    className="selectedTagName1"
+  />
+</button>
+`;
+
+exports[`FilterTag component renders as expected 2`] = `
+<button
+  className="react-tags__keyword-tag"
+  onClick={[Function]}
+  type="button"
+>
+  <span
+    className="selectedTagName2"
+  />
+</button>
+`;

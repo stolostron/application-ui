@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilterButton basic render known type renders as expected 1`] = `
+<div
+  className="filter-bar-button-container"
+  title=""
+>
+  <div
+    aria-checked={false}
+    className="filter-bar-button"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="checkbox"
+    tabIndex="0"
+  >
+    <svg
+      height="16px"
+      width="16px"
+    >
+      <use
+        className="design filter-bar-button-icon"
+        href="#diagramShapes_application"
+      />
+    </svg>
+    <div
+      className="filter-bar-button-label"
+    >
+      application
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FilterButton basic render unknown type renders as expected 1`] = `
+<div
+  className="filter-bar-button-container"
+  title=""
+>
+  <div
+    aria-checked={false}
+    className="filter-bar-button"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="checkbox"
+    tabIndex="0"
+  >
+    <svg
+      height="16px"
+      width="16px"
+    >
+      <use
+        className="default filter-bar-button-icon"
+        href="#diagramShapes_other"
+      />
+    </svg>
+    <div
+      className="filter-bar-button-label"
+    >
+      unknown
+    </div>
+  </div>
+</div>
+`;

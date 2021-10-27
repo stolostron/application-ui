@@ -1,0 +1,228 @@
+---
+argo:
+  data:
+    - enable: true
+      name: helloworld-argo-app-1
+      namespace: openshift-gitops
+      deployedNamespace: argo-test-ns-1
+      type: git
+      successNumber: 3
+      groupedByResource: true
+      config:
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: ""
+          path: helloworld
+          gitReconcileOption: merge
+          deployment:
+            local: true
+            online: false
+            matchingLabel: false
+git:
+  data:
+    - enable: true
+      name: ui-git
+      type: git
+      successNumber: 3 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      new: # used when we add new subscriptions after app creation
+        - url: https://dummy/insecureSkipVerifyOption
+          username: ""
+          token: ""
+          branch: main
+          path: mortgagedc
+          insecureSkipVerifyOption: true
+          disableAutoReconcileOption: true
+          timeWindow:
+            setting: true
+            type: activeinterval
+            date:
+              - Thursday
+              - Friday
+            hours:
+              - start: "09:00am"
+                end: "12:00pm"
+              - start: "3:00pm"
+                end: "6:00pm"
+          deployment:
+            existing: true
+            local: false
+            online: false
+            matchingLabel: false
+      config:
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["route", "service", "replicaset"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: main
+          path: helloworld
+          commitHash: 5614bad419abf01ac52bb723914731b091a77ebc #this has to be the private repo hash!
+          gitReconcileOption: merge
+          repositoryReconcileRate: medium
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["pod", "service"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: main
+          path: mortgagepod
+          tag: v1.0
+          timeWindow:
+            setting: true
+            type: activeinterval
+            date:
+              - Thursday
+              - Friday
+            hours:
+              - start: "09:10am"
+                end: "09:11am"
+              - start: "3:10pm"
+                end: "3:11pm"
+          deployment:
+            local: true
+            online: false
+            matchingLabel: false
+    - enable: true
+      name: ui-git-ansible
+      type: git
+      successNumber: 3 #success number includes the two ansible hooks and the ansible regular task
+      config:
+        - url: https://github.com/fxiang1/app-samples.git
+          resources: ["configmap", "ansiblejob"] #the type of resources this application must deploy
+          username: ""
+          token: ""
+          branch: main
+          path: ansible
+          gitReconcileOption: merge
+          ansibleSecretName: ansible-tower-secret
+          deployment:
+            local: true
+            online: false
+            matchingLabel: false
+objectstore:
+  data:
+    - enable: true
+      name: ui-obj
+      type: objectstore
+      successNumber: 0 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      new: # used when we add new subscriptions after app creation
+        - url: http://ec2-dummy/dev1
+          accessKey: dummy1
+          secretKey: dummy2
+          timeWindow:
+            setting: true
+            type: activeinterval
+            date:
+              - Thursday
+              - Friday
+            hours:
+              - start: "09:00am"
+                end: "12:00pm"
+              - start: "3:00pm"
+                end: "6:00pm"
+          deployment:
+            existing: true
+            local: false
+            online: false
+            matchingLabel: false
+      config:
+        - url: http://ec2-dummy/dev1
+          accessKey: dummy1
+          secretKey: dummy2
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true
+        - url: http://ec2-dummy/dev2
+          resources: ["configmap", "deployment", "replicaset"] #the type of resources this application must deploy
+          accessKey: dummy11
+          secretKey: dummy22
+          timeWindow:
+            setting: true
+            type: activeinterval
+            date:
+              - Thursday
+              - Friday
+            hours:
+              - start: "09:10am"
+                end: "09:11am"
+              - start: "3:10pm"
+                end: "3:11pm"
+          deployment:
+            local: true
+            online: false
+            matchingLabel: false
+helm:
+  data:
+    - enable: true
+      name: ui-helm
+      type: helm
+      successNumber: 3 #should have at least this many resources with status success in the cards status; note that we can validate this only when at least one subscription is NOT using online: true !
+      new: # used when we add new subscriptions after app creation
+        - url: https://dummy/helminsecureSkipVerifyOption
+          username: ""
+          password: ""
+          chartName: aerospike
+          insecureSkipVerifyOption: true
+          disableAutoReconcileOption: true
+          timeWindow:
+            setting: true
+            type: blockinterval
+            date:
+              - Monday
+            hours:
+              - start: "08:00am"
+                end: "12:00pm"
+          deployment:
+            existing: true
+            local: false
+            online: false
+            matchingLabel: false
+      config:
+        - url: https://charts.bitnami.com/bitnami
+          username: ""
+          password: ""
+          chartName: redis
+          packageAlias: redis
+          packageVersion: 12.2.4
+          repositoryReconcileRate: medium
+          deployment:
+            local: false
+            online: false
+            matchingLabel: true
+        - url: https://charts.bitnami.com/bitnami
+          resources: ["service", "configmap", "secret", "deployment"] #the type of resources this application must deploy
+          username: ""
+          password: ""
+          chartName: minio
+          packageVersion: 4.1.9
+          timeWindow:
+            setting: true
+            type: blockinterval
+            date:
+              - Monday
+            hours:
+              - start: "08:10am"
+                end: "08:11am"
+          deployment:
+            local: true
+            online: false
+            matchingLabel: false
+    - enable: true
+      name: ui-helm2
+      type: helm
+      config:
+        - url: https://charts.bitnami.com/bitnami
+          resources: ["service", "deployment", "configmap", "replicaset"] #the type of resources this application must deploy
+          username: ""
+          password: ""
+          chartName: nginx
+          packageAlias: alias-nginx
+          deployment:
+            local: false
+            online: true
+            matchingLabel: false

@@ -96,15 +96,30 @@ export const discoverGroupsFromSource = (
     }
   })
   if (insertControlData) {
-    const { repoURL, path, targetRevision } = source
+    const { repoURL, path, chart, targetRevision } = source
     const githubURL = insertControlData.find(({ id }) => id === 'githubURL')
     const githubPath = insertControlData.find(({ id }) => id === 'githubPath')
     const githubBranch = insertControlData.find(
       ({ id }) => id === 'githubBranch'
     )
-    _.set(githubURL, 'active', repoURL)
-    _.set(githubPath, 'active', path)
-    _.set(githubBranch, 'active', targetRevision)
+    const helmURL = insertControlData.find(({ id }) => id === 'helmURL')
+    const helmChartName = insertControlData.find(
+      ({ id }) => id === 'helmChartName'
+    )
+    const helmPackageversion = insertControlData.find(
+      ({ id }) => id === 'helmPackageVersion'
+    )
+
+    if (githubURL) {
+      _.set(githubURL, 'active', repoURL)
+      _.set(githubPath, 'active', path)
+      _.set(githubBranch, 'active', targetRevision)
+    }
+    if (helmURL) {
+      _.set(helmURL, 'active', repoURL)
+      _.set(helmChartName, 'active', chart)
+      _.set(helmPackageversion, 'active', targetRevision)
+    }
   }
 
   // Placement

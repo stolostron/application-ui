@@ -179,7 +179,7 @@ Cypress.Commands.add("addUserIfNotCreatedBySuite", () => {
       cy.deleteExistingUsersIdentity();
       cy.addUsers();
       cy.getIdentity();
-      cy.wait(60000); // Wait for users to take affect
+      cy.wait(60000 * 5); // Wait for users to take affect
       cy.addRolesToManagedClusterUser();
     } else cy.log("Users Already initiated by Testsuite");
   });

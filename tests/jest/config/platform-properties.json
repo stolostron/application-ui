@@ -11,7 +11,7 @@
   "app.enter.accesskey": "Enter the object store access key",
   "app.enter.helmrepo.chart.name": "Enter name of the target Helm chart",
   "app.enter.helmrepo.package.alias": "Enter the alias name of the target Helm chart",
-  "app.enter.helmrepo.package.version": "Optional: Enter the version or versions for the deployable",
+  "app.enter.helmrepo.package.version": "Enter the version or versions for the deployable",
   "app.enter.helmrepo.password": "Optional: Enter the Helm repository password",
   "app.enter.helmrepo.username": "Optional: Enter the Helm repository user name",
   "app.enter.secretkey": "Enter the object store secret key",

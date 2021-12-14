@@ -60,7 +60,7 @@
     "@babel/preset-react": "^7.12.5",
     "@babel/register": "^7.12.1",
     "@loadable/component": "^5.14.1",
-    "@open-cluster-management/security-middleware": "^1.0.4",
+    "@open-cluster-management/security-middleware": "^1.0.5",
     "@open-cluster-management/ui-components": "^1.24.0",
     "@patternfly/patternfly": "^4.135.2",
     "@patternfly/react-core": "^4.157.3",

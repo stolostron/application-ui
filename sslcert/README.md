@@ -4,3 +4,4 @@ To generate a certificate for development run the following in this directory (.
 ```
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt -config req.conf -extensions 'v3_req'
 ```
+

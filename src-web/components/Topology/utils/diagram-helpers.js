@@ -399,10 +399,12 @@ const getPulseStatusForGenericNode = node => {
       namespace
     )
     targetNSList.forEach(targetNS => {
-      const resObject = _.find(
-        resourcesForCluster,
-        obj => _.get(obj, resourceNSString, '') === targetNS
-      )
+      const resObject = targetNS
+        ? _.find(
+          resourcesForCluster,
+          obj => _.get(obj, resourceNSString, '') === targetNS
+        )
+        : resourcesForCluster
       const resStatus = !resObject
         ? notDeployedStr.toLowerCase()
         : _.get(resObject, 'status', deployedStr).toLowerCase()
@@ -1441,10 +1443,12 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
       '*'
     )
     targetNSList.forEach(targetNS => {
-      let res = _.find(
-        resourcesForCluster,
-        obj => _.get(obj, resourceNSString, '') === targetNS
-      )
+      let res = targetNS
+        ? _.find(
+          resourcesForCluster,
+          obj => _.get(obj, resourceNSString, '') === targetNS
+        )
+        : resourcesForCluster
       if (_.get(node, 'type', '') !== 'ansiblejob' || !isHookNode) {
         // process here only regular ansible tasks
         const deployedKey = res

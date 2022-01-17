@@ -11,7 +11,7 @@
 
 import React, { Component } from 'react'
 import msgs from '../../../nls/platform.properties'
-import { AcmButton } from '@open-cluster-management/ui-components'
+import { AcmButton } from '@stolostron/ui-components'
 import { TooltipContainer } from 'temptifly'
 import { Link } from 'react-router-dom'
 import config from '../../../lib/shared/config'

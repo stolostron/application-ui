@@ -1,5 +1,5 @@
 {
-  "name": "@open-cluster-management/application-ui",
+  "name": "@stolostron/application-ui",
   "version": "2.1.0",
   "description": "",
   "main": "app.js",
@@ -43,15 +43,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:open-cluster-management/application-ui.git"
+    "url": "git@github.com:stolostron/application-ui.git"
   },
   "author": "",
   "license": "SEE LICENSE IN LICENSE",
   "dependencies": {
-    "@open-cluster-management/ui-components": "^0.1.130",
     "@patternfly/react-core": "^4.75.2",
     "@patternfly/react-icons": "^4.7.4",
     "@patternfly/react-tokens": "^4.9.18",
+    "@stolostron/security-middleware": "^1.0.5",
+    "@stolostron/ui-components": "^0.1.130",
     "apollo-boost": "^0.1.20",
     "apollo-client": "^2.2.8",
     "apollo-link-retry": "^2.2.14",
@@ -141,7 +142,6 @@
     "request": "^2.88.2",
     "requestretry": "^4.1.1",
     "reselect": "^3.0.1",
-    "security-middleware": "github:open-cluster-management/security-middleware",
     "svg-loader": "0.0.2",
     "svg-react-loader": "^0.4.6",
     "svg-sprite-loader": "^5.0.0",

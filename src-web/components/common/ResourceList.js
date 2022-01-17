@@ -35,7 +35,7 @@ import {
 } from '../../shared/utils/refetch'
 import { refetchIntervalUpdate } from '../../actions/refetch'
 import { withLocale } from '../../providers/LocaleProvider'
-import { AcmAlert } from '@open-cluster-management/ui-components'
+import { AcmAlert } from '@stolostron/ui-components'
 import { Stack, StackItem } from '@patternfly/react-core'
 
 resources(() => {

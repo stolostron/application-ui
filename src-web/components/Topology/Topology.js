@@ -12,7 +12,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import { AcmAlert } from '@open-cluster-management/ui-components'
+import { AcmAlert } from '@stolostron/ui-components'
 import SearchName from './viewer/SearchName'
 import TypeFilterBar, { setActiveTypeFilters } from './viewer/TypeFilterBar'
 import ResourceFilterModule from './viewer/ResourceFilterModule'

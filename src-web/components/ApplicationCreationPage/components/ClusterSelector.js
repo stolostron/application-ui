@@ -5,7 +5,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
-import { AcmTextInput } from '@open-cluster-management/ui-components'
+import { AcmTextInput } from '@stolostron/ui-components'
 import {
   Checkbox,
   Accordion,

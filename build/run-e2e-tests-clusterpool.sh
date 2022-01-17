@@ -28,7 +28,7 @@ fold_start install-tools "Install oc and Cluster Keeper"
 echo "Running oc/install..."
 make oc/install
 echo "Cloning Cluster Keeper"
-git clone https://github.com/open-cluster-management/cluster-keeper.git
+git clone https://github.com/stolostron/cluster-keeper.git
 pushd cluster-keeper
 cat > user.env << EOF
 CLUSTERPOOL_CLUSTER=$CLUSTERPOOL_CLUSTER

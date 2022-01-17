@@ -1,4 +1,4 @@
-# application-ui [![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/open-cluster-management/application-ui)
+# application-ui [![Build Status](https://travis-ci.com/stolostron/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/stolostron/application-ui)
 The UI service for Application Lifecycle
 
 ------
@@ -40,7 +40,7 @@ Included fonts are licensed under the *SIL Open Font License 1.1*, and copies of
 
 ## Getting Started
 
-The Application console runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of Application lifecycle subscription operators. This console component, application-ui, depends on the [console-api](https://github.com/open-cluster-management/console-api) and [search-api](https://github.com/open-cluster-management/search-api) components to work with the custom Kubernetes resources of the Application lifecycle model. The application-ui and console-api components are packaged as a Helm chart defined in the [application-chart](https://github.com/open-cluster-management/application-chart) repository. The search-api component is packaged as a Helm chart defined in the [search-chart](https://github.com/open-cluster-management/search-chart) repository. This is a guide on how to build and run open-cluster-management application-ui.
+The Application console runs only on the hub cluster. It defines the user interface used to create and manage application resources deployed on your managed clusters through the use of Application lifecycle subscription operators. This console component, application-ui, depends on the [console-api](https://github.com/stolostron/console-api) and [search-api](https://github.com/stolostron/search-api) components to work with the custom Kubernetes resources of the Application lifecycle model. The application-ui and console-api components are packaged as a Helm chart defined in the [application-chart](https://github.com/stolostron/application-chart) repository. The search-api component is packaged as a Helm chart defined in the [search-chart](https://github.com/stolostron/search-chart) repository. This is a guide on how to build and run stolostron application-ui.
 
 ![application-ui architecture](graphics/application-ui-arch.png)
 
@@ -68,7 +68,7 @@ This UI Platform is developed as an isomorphic react application.  The following
 
 ## Building for Development
 <pre>
-git clone https://github.com/open-cluster-management/application-ui.git
+git clone https://github.com/stolostron/application-ui.git
 cd application-ui
 npm install
 npm run build
@@ -150,7 +150,7 @@ To run your local `application-ui` code against an existing OCM installation:
    }
    </pre>
 
-4. If you are working on changes to `console-api`, run `console-api` locally following the instructions from https://github.com/open-cluster-management/console-api
+4. If you are working on changes to `console-api`, run `console-api` locally following the instructions from https://github.com/stolostron/console-api
 
 5. Start the server for production
    <pre>
@@ -167,7 +167,7 @@ To run your local `application-ui` code against an existing OCM installation:
 
 ## Building a local image
 <pre>
-git clone https://github.com/open-cluster-management/application-ui.git
+git clone https://github.com/stolostron/application-ui.git
 cd application-ui
 export export USE_VENDORIZED_BUILD_HARNESS=false
 export COMPONENT_DOCKER_REPO=&lt;docker_repo&gt;
@@ -222,8 +222,8 @@ The full list of npm scripts are described below.
 
 These are a few useful links that will help provide technical reference and best practices when developing for the platform.
 
-- [temptifly](https://github.com/open-cluster-management/temptifly)
-- [ui-components](https://github.com/open-cluster-management/ui-components)
+- [temptifly](https://github.com/stolostron/temptifly)
+- [ui-components](https://github.com/stolostron/ui-components)
 - [PatternFly](https://www.patternfly.org)
 - [Webpack](https://webpack.js.org)
 - [React Docs](https://facebook.github.io/react/docs/hello-world.html)

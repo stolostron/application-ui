@@ -16,7 +16,7 @@ BROWSER ?= chrome
 USE_VENDORIZED_BUILD_HARNESS ?=
 
 ifndef USE_VENDORIZED_BUILD_HARNESS
--include $(shell curl -s -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/open-cluster-management/build-harness-extensions/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
+-include $(shell curl -s -H 'Accept: application/vnd.github.v4.raw' -L https://api.github.com/repos/stolostron/build-harness-extensions/contents/templates/Makefile.build-harness-bootstrap -o .build-harness-bootstrap; echo .build-harness-bootstrap)
 else
 -include vbh/.build-harness-bootstrap
 endif
@@ -89,11 +89,11 @@ run-test-image-pr: # Suppress output as this contains sensitive information
 	-e CYPRESS_MANAGED_OCP_PASS=$(CYPRESS_MANAGED_OCP_PASS) \
 	-e GITHUB_USER=$(GITHUB_USER) \
 	-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
-	-e GITHUB_PRIVATE_URL=https://github.com/open-cluster-management/app-ui-e2e-private-git \
+	-e GITHUB_PRIVATE_URL=https://github.com/stolostron/app-ui-e2e-private-git \
 	-e OBJECTSTORE_PRIVATE_URL=$(OBJECTSTORE_PRIVATE_URL) \
 	-e OBJECTSTORE_ACCESS_KEY=$(OBJECTSTORE_ACCESS_KEY) \
 	-e OBJECTSTORE_SECRET_KEY=$(OBJECTSTORE_SECRET_KEY) \
-	-e HELM_PRIVATE_URL=https://raw.githubusercontent.com/open-cluster-management/app-ui-e2e-private-helm/main \
+	-e HELM_PRIVATE_URL=https://raw.githubusercontent.com/stolostron/app-ui-e2e-private-helm/main \
 	-e HELM_USERNAME=$(GITHUB_USER) \
 	-e HELM_PASSWORD=$(GITHUB_TOKEN) \
 	-e HELM_CHART_NAME=mychart \

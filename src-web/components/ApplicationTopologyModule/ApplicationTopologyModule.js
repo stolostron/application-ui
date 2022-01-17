@@ -25,7 +25,7 @@ import {
   DIAGRAM_QUERY_COOKIE,
   LOCAL_HUB_NAME
 } from '../../../lib/shared/constants'
-import { AcmAlert } from '@open-cluster-management/ui-components'
+import { AcmAlert } from '@stolostron/ui-components'
 import '../../../graphics/diagramIcons.svg'
 import {
   TOPOLOGY_SET_ACTIVE_FILTERS,

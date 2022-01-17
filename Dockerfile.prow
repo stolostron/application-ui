@@ -1,4 +1,4 @@
-FROM registry.ci.openshift.org/open-cluster-management/builder:nodejs14-linux as builder
+FROM registry.ci.openshift.org/stolostron/builder:nodejs14-linux as builder
 
 # Root needed for yum update, gets reset to 1001 below.
 USER root
@@ -7,7 +7,7 @@ COPY . /opt/app-root/src/application-ui/
 RUN yum --nobest -y update
 RUN cd /opt/app-root/src/application-ui/ && npm ci && npm run build:production && npm prune --production
 
-FROM registry.ci.openshift.org/open-cluster-management/common-nodejs-parent:nodejs-14
+FROM registry.ci.openshift.org/stolostron/common-nodejs-parent:nodejs-14
 RUN microdnf update
 
 ENV BABEL_DISABLE_CACHE=1 \

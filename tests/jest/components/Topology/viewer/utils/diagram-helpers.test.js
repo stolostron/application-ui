@@ -1034,8 +1034,7 @@ describe("getNameWithoutChartRelease node for helmrelease no label", () => {
     selfLink:
       "/apis/apps.open-cluster-management.io/v1/namespaces/git-sub-ns-helm/helmreleases/chart1-5a9ac",
     sourceType: "git",
-    url:
-      "https://github.com/open-cluster-management/multicloud-operators-subscription",
+    url: "https://github.com/stolostron/multicloud-operators-subscription",
     _clusterNamespace: "sharingpenguin",
     _hostingDeployable: "ch-git-helm/git-helm-chart1-1.1.1",
     _hostingSubscription: "git-sub-ns-helm/git-helm-sub",

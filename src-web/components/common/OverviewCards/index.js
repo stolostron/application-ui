@@ -33,7 +33,7 @@ import {
   AcmAlert,
   AcmButton,
   AcmDescriptionList
-} from '@open-cluster-management/ui-components'
+} from '@stolostron/ui-components'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'

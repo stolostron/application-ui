@@ -27,11 +27,7 @@ import {
 import { RESOURCE_TYPES } from '../../../lib/shared/constants'
 import resources from '../../../lib/shared/resources'
 import { withLocale } from '../../providers/LocaleProvider'
-import {
-  AcmModal,
-  AcmLoadingPage,
-  AcmAlert
-} from '@open-cluster-management/ui-components'
+import { AcmModal, AcmLoadingPage, AcmAlert } from '@stolostron/ui-components'
 import { Checkbox, Button, ModalVariant } from '@patternfly/react-core'
 import { ExclamationTriangleIcon } from '@patternfly/react-icons'
 

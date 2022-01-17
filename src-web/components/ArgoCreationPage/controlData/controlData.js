@@ -17,10 +17,7 @@ import githubChannelData from './ControlDataGit'
 import helmChannelData from './ControlDataHelm'
 import { loadExistingArgoServer, updateArgoSelection } from './utils'
 import React from 'react'
-import {
-  AcmIcon,
-  AcmIconVariant
-} from '@open-cluster-management/ui-components'
+import { AcmIcon, AcmIconVariant } from '@stolostron/ui-components'
 import _ from 'lodash'
 
 import { discoverGroupsFromSource } from '../transformers/transform-resources-to-controls'

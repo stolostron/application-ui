@@ -12,11 +12,7 @@ import { UPDATE_ACTION_MODAL } from '../../apollo-client/queries/StateQueries'
 import { syncApplication } from '../../actions/application'
 import resources from '../../../lib/shared/resources'
 import { withLocale } from '../../providers/LocaleProvider'
-import {
-  AcmModal,
-  AcmLoadingPage,
-  AcmAlert
-} from '@open-cluster-management/ui-components'
+import { AcmModal, AcmLoadingPage, AcmAlert } from '@stolostron/ui-components'
 import { Button, ModalVariant } from '@patternfly/react-core'
 
 resources(() => {

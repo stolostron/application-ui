@@ -9,17 +9,17 @@
 // Copyright Contributors to the Open Cluster Management project
 let path = require("path"),
   webpack = require("webpack"),
-  MiniCssExtractPlugin = require('mini-css-extract-plugin'),
+  MiniCssExtractPlugin = require("mini-css-extract-plugin"),
   AssetsPlugin = require("assets-webpack-plugin"),
-  CopyPlugin = require('copy-webpack-plugin'),
+  CopyPlugin = require("copy-webpack-plugin"),
   config = require("./config"),
   CompressionPlugin = require("compression-webpack-plugin"),
   MonacoWebpackPlugin = require("monaco-editor-webpack-plugin"),
-  TerserPlugin = require('terser-webpack-plugin');
+  TerserPlugin = require("terser-webpack-plugin");
 
 let PRODUCTION = process.env.BUILD_ENV
-    ? /production/.test(process.env.BUILD_ENV)
-    : false;
+  ? /production/.test(process.env.BUILD_ENV)
+  : false;
 
 process.env.BABEL_ENV = "client";
 
@@ -61,42 +61,43 @@ module.exports = {
         ],
         loader: "babel-loader?cacheDirectory",
         options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'],
-          plugins: ['@babel/plugin-proposal-class-properties']
+          presets: ["@babel/preset-env", "@babel/preset-react"],
+          plugins: ["@babel/plugin-proposal-class-properties"]
         }
       },
       {
         test: [/\.s?css$/],
         exclude: /node_modules/,
         use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: "css-loader",
-              options: {
-                sourceMap: true,
-              }
-            },
-            {
-              loader: "postcss-loader?sourceMap",
-              options: {
-                plugins: function() {
-                  return [require("autoprefixer")];
-                }
-              }
-            },
-            {
-              loader: "resolve-url-loader",
-              options: {
-                sourceMap: true
-              }
-            },
-            {
-              loader: "sass-loader?sourceMap",
-              options: {
-              prependData: '$font-path: "'+ config.get('contextPath') + '/fonts";'
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "postcss-loader?sourceMap",
+            options: {
+              plugins: function() {
+                return [require("autoprefixer")];
               }
             }
-          ]
+          },
+          {
+            loader: "resolve-url-loader",
+            options: {
+              sourceMap: true
+            }
+          },
+          {
+            loader: "sass-loader?sourceMap",
+            options: {
+              prependData:
+                '$font-path: "' + config.get("contextPath") + '/fonts";'
+            }
+          }
+        ]
       },
       {
         test: /\.(woff2?|eot)(\?.*$|$)/,
@@ -107,10 +108,7 @@ module.exports = {
         include: [
           path.resolve(__dirname, "./node_modules/temptifly"),
           path.resolve(__dirname, "./node_modules/monaco-editor"),
-          path.resolve(
-            __dirname,
-            "./node_modules/@open-cluster-management/ui-components"
-          )
+          path.resolve(__dirname, "./node_modules/@stolostron/ui-components")
         ],
         use: ["style-loader", "css-loader"]
       },
@@ -166,18 +164,19 @@ module.exports = {
 
   optimization: {
     minimize: PRODUCTION,
-    minimizer: [new TerserPlugin({
-      parallel: true,
-    })],
+    minimizer: [
+      new TerserPlugin({
+        parallel: true
+      })
+    ]
   },
 
-
   output: {
-    filename: PRODUCTION ? 'js/[name].[contenthash].min.js' : 'js/[name].js',
+    filename: PRODUCTION ? "js/[name].[contenthash].min.js" : "js/[name].js",
     // chunkFilename: PRODUCTION ? 'js/[name].[chunkhash].min.js' : 'js/[name].js',
-    path: __dirname + '/public',
-    publicPath: config.get('contextPath').replace(/\/?$/, '/'),
-    jsonpFunction: 'webpackJsonpFunctionApp',
+    path: __dirname + "/public",
+    publicPath: config.get("contextPath").replace(/\/?$/, "/"),
+    jsonpFunction: "webpackJsonpFunctionApp"
   },
 
   plugins: [
@@ -201,10 +200,10 @@ module.exports = {
       }
     }),
     new CompressionPlugin({
-      filename: '[path].gz',
-      algorithm: 'gzip',
+      filename: "[path].gz",
+      algorithm: "gzip",
       test: /\.js$|\.css$/,
-      minRatio: 1,
+      minRatio: 1
     }),
     new MonacoWebpackPlugin({
       languages: ["yaml"]
@@ -217,12 +216,12 @@ module.exports = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: 'graphics', to: 'graphics' },
-        { from: 'fonts', to: 'fonts'},
+        { from: "graphics", to: "graphics" },
+        { from: "fonts", to: "fonts" }
       ],
       options: {
-        concurrency: 100,
-      },
+        concurrency: 100
+      }
     })
   ],
   resolve: {

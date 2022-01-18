@@ -879,7 +879,7 @@ const saveErrorShouldNotExist = () => {
   notification.shouldNotExist("error", { timeout: 2 * 1000 }); //save error goes away
 };
 
-//verify https://github.com/open-cluster-management/backlog/issues/7080
+//verify https://github.com/stolostron/backlog/issues/7080
 export const testDefect7080 = () => {
   //click all clusters option
   cy.log("Test defect 7080 - check all online clusters option");

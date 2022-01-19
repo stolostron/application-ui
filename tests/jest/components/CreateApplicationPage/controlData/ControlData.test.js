@@ -1041,7 +1041,7 @@ describe("reverseExistingRule with template data", () => {
     active: "-placement-1",
     groupControlData: [
       {
-        active: "-placement-1",
+        // active: "-placement-1",
         id: "selectedRuleName",
         type: "hidden"
       },
@@ -1092,7 +1092,7 @@ describe("updateDisplayForPlacementControls", () => {
   );
   const result = [
     {
-      active: "-placement-1",
+      // active: "-placement-1",
       id: "selectedRuleName",
       type: "hidden"
     },

@@ -15,10 +15,7 @@ import {
   OutlinedQuestionCircleIcon
 } from '@patternfly/react-icons'
 import { Button, Skeleton, Tooltip } from '@patternfly/react-core'
-import {
-  AcmAlert,
-  AcmDescriptionList
-} from '@open-cluster-management/ui-components'
+import { AcmAlert, AcmDescriptionList } from '@stolostron/ui-components'
 import resources from '../../../../lib/shared/resources'
 import msgs from '../../../../nls/platform.properties'
 import config from '../../../../lib/shared/config'

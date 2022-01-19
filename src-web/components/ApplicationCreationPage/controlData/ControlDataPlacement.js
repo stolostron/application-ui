@@ -214,12 +214,6 @@ export const reverseExistingRule = (control, templateObject) => {
   )
   if (active && control.active === undefined) {
     control.active = active.$v
-
-    const { groupControlData } = control
-    const selectedRuleName = groupControlData.find(
-      ({ id }) => id === 'selectedRuleName'
-    )
-    selectedRuleName.active = active.$v
   }
   return control
 }

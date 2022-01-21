@@ -214,7 +214,15 @@ export const reverseExistingRule = (control, templateObject) => {
   )
   if (active && control.active === undefined) {
     control.active = active.$v
-
+  }
+  return control
+}
+export const reverseExistingRuleName = (control, templateObject) => {
+  const active = _.get(
+    templateObject,
+    getSourcePath('Subscription[0].spec.placement.placementRef.name')
+  )
+  if (active && control.active === undefined) {
     const { groupControlData } = control
     const selectedRuleName = groupControlData.find(
       ({ id }) => id === 'selectedRuleName'
@@ -309,7 +317,7 @@ const placementData = async () => [
   {
     id: 'selectedRuleName',
     type: 'hidden',
-    active: ''
+    reverse: reverseExistingRuleName
   },
   {
     type: 'custom',

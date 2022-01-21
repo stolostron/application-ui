@@ -1998,8 +1998,8 @@ describe("computeNodeStatus ", () => {
     expect(computeNodeStatus(persVolumePendingStateYellow)).toEqual("yellow");
   });
 
-  it("return computeNodeStatus generic node yellow - res not defined", () => {
-    expect(computeNodeStatus(genericNodeYellowNotDefined)).toEqual("yellow");
+  it("return computeNodeStatus generic node green - res not defined", () => {
+    expect(computeNodeStatus(genericNodeYellowNotDefined)).toEqual("green");
   });
 
   it("return Ansible error", () => {
@@ -2063,7 +2063,7 @@ describe("computeNodeStatus ", () => {
   });
 
   it("return computeNodeStatus generic node green", () => {
-    expect(computeNodeStatus(genericNodeGreen)).toEqual("yellow");
+    expect(computeNodeStatus(genericNodeGreen)).toEqual("green");
   });
 
   it("return computeNodeStatus package node orange", () => {

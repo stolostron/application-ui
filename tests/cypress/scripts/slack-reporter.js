@@ -82,7 +82,7 @@ function buildComment(failedTests, prData, slackData) {
   return `:failed: *FAILED: ${title}*\n
 ${failedTests.map(test => `- ${test} \n`).join("")}\n
 :cypress: <${BUILD_WEB_URL}|View build> | :github: <${html_url ||
-    "https://github.com/open-cluster-management/application-ui/pulls"}|View pull request> \n\n
+    "https://github.com/stolostron/application-ui/pulls"}|View pull request> \n\n
 ${id ? `<@${id}>` : ""}`;
 }
 

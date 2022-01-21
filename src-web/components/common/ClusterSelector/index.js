@@ -5,7 +5,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import resources from '../../../../lib/shared/resources'
-import { AcmTextInput } from '@open-cluster-management/ui-components'
+import { AcmTextInput } from '@stolostron/ui-components'
 import {
   Checkbox,
   Accordion,
@@ -194,15 +194,17 @@ export class ClusterSelector extends React.Component {
         if (labelNameSet.has(labelName)) {
           exceptions.push({
             row: 1,
-            text: msgs.get('creation.duplicate.clusterSelector.label', [labelName], locale),
+            text: msgs.get(
+              'creation.duplicate.clusterSelector.label',
+              [labelName],
+              locale
+            ),
             type: 'error',
             controlId: `labelName-${id}`
           })
         }
         labelNameSet.add(labelName)
       })
-
-
     }
   }
 

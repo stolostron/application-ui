@@ -18,7 +18,7 @@ import {
   AcmEmptyState,
   AcmTable,
   AcmDropdown
-} from '@open-cluster-management/ui-components'
+} from '@stolostron/ui-components'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 import { withRouter } from 'react-router-dom'

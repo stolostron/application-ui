@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom'
 import {
   AcmAutoRefreshSelect,
   AcmRefreshTime
-} from '@open-cluster-management/ui-components'
+} from '@stolostron/ui-components'
 
 import { getSelectedId } from './QuerySwitcher'
 import {

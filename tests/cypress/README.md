@@ -1,6 +1,6 @@
 # Application-UI Cypress Tests
 
-This is the project for the End-to-end (E2E) Cypress tests for [Application-UI](https://github.com/open-cluster-management/application-ui)
+This is the project for the End-to-end (E2E) Cypress tests for [Application-UI](https://github.com/stolostron/application-ui)
 
 The tests can be run locally and also are containerized in Docker for running on the Travis CI pipeline. On Travis, each PR build creates an appiication-ui image which is run using Docker, and another application-ui-tests image is built and also run on Docker, pointing to the application-ui image. The intent is that the tests will be run on new code every build.
 

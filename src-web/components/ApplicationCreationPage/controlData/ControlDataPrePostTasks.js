@@ -16,10 +16,7 @@ import {
   getSharedSubscriptionWarning
 } from './utils'
 import React from 'react'
-import {
-  AcmIcon,
-  AcmIconVariant
-} from '@open-cluster-management/ui-components'
+import { AcmIcon, AcmIconVariant } from '@stolostron/ui-components'
 
 const prePostTasks = [
   ////////////////////////////////////////////////////////////////////////////////////

@@ -14,11 +14,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {
-  AcmHeader,
-  AcmPage,
-  AcmRoute
-} from '@open-cluster-management/ui-components'
+import { AcmHeader, AcmPage, AcmRoute } from '@stolostron/ui-components'
 import SecondaryHeader from '../components/SecondaryHeader'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { withLocale } from '../providers/LocaleProvider'

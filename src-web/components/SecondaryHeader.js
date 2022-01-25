@@ -18,7 +18,7 @@ import {
   AcmPageHeader,
   AcmSecondaryNav,
   AcmSecondaryNavItem
-} from '@open-cluster-management/ui-components'
+} from '@stolostron/ui-components'
 import resources from '../../lib/shared/resources'
 import { withRouter, Link } from 'react-router-dom'
 import msgs from '../../nls/platform.properties'

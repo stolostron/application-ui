@@ -27,7 +27,7 @@ import { updateResourceFilters, combineFilters } from '../../actions/filters'
 import { withRouter } from 'react-router-dom'
 import msgs from '../../../nls/platform.properties'
 import { withLocale } from '../../providers/LocaleProvider'
-import { AcmAlert } from '@open-cluster-management/ui-components'
+import { AcmAlert } from '@stolostron/ui-components'
 import { Stack, StackItem } from '@patternfly/react-core'
 
 class ResourceList extends React.Component {

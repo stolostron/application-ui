@@ -14,10 +14,7 @@
 
 import _ from 'lodash'
 import React from 'react'
-import {
-  AcmEmptyState,
-  AcmTable
-} from '@open-cluster-management/ui-components'
+import { AcmEmptyState, AcmTable } from '@stolostron/ui-components'
 import msgs from '../../../nls/platform.properties'
 import resources from '../../../lib/shared/resources'
 import { withRouter } from 'react-router-dom'

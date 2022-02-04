@@ -10,7 +10,7 @@
 
 import React from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
-import { AcmAlert } from '@open-cluster-management/ui-components'
+import { AcmAlert } from '@stolostron/ui-components'
 import { updateSecondaryHeader } from '../../../actions/common'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'

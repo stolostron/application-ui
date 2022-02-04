@@ -21,7 +21,7 @@ import {
 import { fetchTopology } from '../../actions/topology'
 import { processResourceActionLink } from '../Topology/utils/diagram-helpers'
 import { DIAGRAM_QUERY_COOKIE } from '../../../lib/shared/constants'
-import { AcmAlert } from '@open-cluster-management/ui-components'
+import { AcmAlert } from '@stolostron/ui-components'
 import '../../../graphics/diagramIcons.svg'
 import {
   TOPOLOGY_SET_ACTIVE_FILTERS,

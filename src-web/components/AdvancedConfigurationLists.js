@@ -20,7 +20,7 @@ import {
 } from './common/QuerySwitcher'
 import msgs from '../../nls/platform.properties'
 import { withLocale } from '../providers/LocaleProvider'
-import { AcmTablePaginationContextProvider } from '@open-cluster-management/ui-components'
+import { AcmTablePaginationContextProvider } from '@stolostron/ui-components'
 
 const AdvancedConfigurationLists = ({
   secondaryHeaderProps,

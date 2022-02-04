@@ -80,7 +80,7 @@ function buildComment(failedTests, prData, slackData) {
 ${failedTests.map(test => `- ${test} \n`).join("")}\n
 :travis-ci: <${TRAVIS_BUILD_WEB_URL ||
     "https://travis-ci.com/github/open-cluster-management/application-ui/pull_requests"}|View build> | :github: <${html_url ||
-    "https://github.com/open-cluster-management/application-ui/pulls"}|View pull request> \n\n
+    "https://github.com/stolostron/application-ui/pulls"}|View pull request> \n\n
 ${id ? `<@${id}>` : ""}`;
 }
 

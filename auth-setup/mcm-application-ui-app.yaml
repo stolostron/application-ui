@@ -77,7 +77,7 @@ items:
         serviceAccountName: application-ui-app
         containers:
           - name: application-ui-app
-            image: quay.io/open-cluster-management/application-ui:latest
+            image: quay.io/stolostron/application-ui:latest
             imagePullPolicy: Always
             ports:
             - containerPort: 3001

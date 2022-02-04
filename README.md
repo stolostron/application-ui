@@ -1,4 +1,4 @@
-# application-ui [![Build Status](https://travis-ci.com/open-cluster-management/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=master)](https://travis-ci.com/open-cluster-management/application-ui)
+# application-ui [![Build Status](https://travis-ci.com/stolostron/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=master)](https://travis-ci.com/stolostron/application-ui)
 The UI service for Application Lifecycle
 
 ## Design
@@ -94,7 +94,7 @@ or npm run build:production
     }
     </pre>
 
-4. If you are working on changes to `console-ui`, run `console-api` locally following the instructions from https://github.com/open-cluster-management/console-api
+4. If you are working on changes to `console-ui`, run `console-api` locally following the instructions from https://github.com/stolostron/console-api
 
 5. Start the server for production
 <pre>

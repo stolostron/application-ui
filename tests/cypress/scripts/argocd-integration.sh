@@ -12,7 +12,7 @@ KUBECTL_HUB="oc"
 
 waitForRes() {
     FOUND=1
-    MINUTE=0
+    SECOND=0
     resKinds=$1
     resName=$2
     resNamespace=$3
@@ -21,7 +21,7 @@ waitForRes() {
     printf "\n#####\nWait for ${resNamespace}/${resName} to reach running state (4min).\n"
     while [ ${FOUND} -eq 1 ]; do
         # Wait up to 4min, should only take about 20-30s
-        if [ $MINUTE -gt 240 ]; then
+        if [ $SECOND -gt 240 ]; then
             echo "Timeout waiting for the ${resNamespace}\/${resName}."
             echo "List of current resources:"
             oc -n ${resNamespace} get ${resKinds}
@@ -48,7 +48,27 @@ waitForRes() {
         fi
         echo "* STATUS: $operatorRes"
         sleep 3
-        (( MINUTE = MINUTE + 3 ))
+        (( SECOND = SECOND + 3 ))
+    done
+}
+
+retryCommand() {
+    command=$1
+
+    SECOND=0
+    while [ true ]; do
+        # Wait up to 5min
+        if [ $SECOND -gt 300 ]; then
+            echo "* STATUS: \'${command}\' failed after 5min of attempts"
+            exit 1
+        fi
+        $command
+        if [ $? -eq 0 ]; then
+            break
+        fi
+        echo "* STATUS: \'${command}\' failed; retry in 10 sec"
+        sleep 10
+        (( SECOND = SECOND + 10 ))
     done
 }
 
@@ -57,10 +77,10 @@ verifySecretAdded() {
     namespace=$2
 
     # Wait for the managed cluster secret to be deleted
-    MINUTE=0
+    SECOND=0
     while [ true ]; do
         # Wait up to 2min
-        if [ $MINUTE -gt 120 ]; then
+        if [ $SECOND -gt 120 ]; then
             echo "$(date) Timeout waiting for the managed cluster secret ${managedCluster}-cluster-secret to be added into ${namespace}"
             echo "E2E CANARY TEST - EXIT WITH ERROR"
             exit 1
@@ -73,7 +93,7 @@ verifySecretAdded() {
         echo "$(date) waiting for the managed cluster secret ${managedCluster}-cluster-secret to be added into ${namespace}"
 
         sleep 10
-        (( MINUTE = MINUTE + 10 ))
+        (( SECOND = SECOND + 10 ))
     done
 
 }
@@ -106,21 +126,7 @@ ARGOCD_HOST=$($KUBECTL_HUB get route openshift-gitops-server -n openshift-gitops
 
 echo "argocd login $ARGOCD_HOST --insecure --username admin --password $ARGOCD_PWD"
 
-MINUTE=0
-while [ true ]; do
-    # Wait up to 5min, should only take about 1-2 min
-    if [ $MINUTE -gt 300 ]; then
-        echo "Timeout waiting for argocd cli login."
-        exit 1
-    fi
-    argocd login $ARGOCD_HOST --insecure --username admin --password $ARGOCD_PWD
-    if [ $? -eq 0 ]; then
-        break
-    fi
-    echo "* STATUS: ArgoCD host NOT ready. Retry in 10 sec"
-    sleep 10
-    (( MINUTE = MINUTE + 10 ))
-done
+retryCommand "argocd login $ARGOCD_HOST --insecure --username admin --password $ARGOCD_PWD"
 
 # Create managedclusterset
 $KUBECTL_HUB apply -f $MANAGEDCLUSTERSET_PATH
@@ -178,10 +184,10 @@ SPOKE_CLUSTER_SERVER=$(argocd cluster list  |grep -w $SPOKE_CLUSTER |awk -F' ' '
 $KUBECTL_HUB create namespace argo-test-ns-1
 $KUBECTL_HUB create namespace argo-test-ns-2
 
-argocd app create helloworld-argo-app-1 --repo https://github.com/fxiang1/app-samples.git --path helloworld --dest-server $SPOKE_CLUSTER_SERVER --dest-namespace argo-test-ns-1
-argocd app sync helloworld-argo-app-1
-argocd app create helloworld-argo-app-2 --repo https://github.com/fxiang1/app-samples.git --path helloworld --dest-server $SPOKE_CLUSTER_SERVER --dest-namespace argo-test-ns-2
-argocd app sync helloworld-argo-app-2
+retryCommand "argocd app create helloworld-argo-app-1 --repo https://github.com/fxiang1/app-samples.git --path helloworld --dest-server $SPOKE_CLUSTER_SERVER --dest-namespace argo-test-ns-1"
+retryCommand "argocd app sync helloworld-argo-app-1"
+retryCommand "argocd app create helloworld-argo-app-2 --repo https://github.com/fxiang1/app-samples.git --path helloworld --dest-server $SPOKE_CLUSTER_SERVER --dest-namespace argo-test-ns-2"
+retryCommand "argocd app sync helloworld-argo-app-2"
 
 waitForRes "deployments" "helloworld-app-deploy" "argo-test-ns-1" ""
 waitForRes "deployments" "helloworld-app-deploy" "argo-test-ns-2" ""

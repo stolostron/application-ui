@@ -9,7 +9,7 @@
 // Copyright Contributors to the Open Cluster Management project
 
 import React from 'react'
-import { AcmExpandableCard } from '@open-cluster-management/ui-components'
+import { AcmExpandableCard } from '@stolostron/ui-components'
 import { ExternalLinkAltIcon } from '@patternfly/react-icons'
 import { DOC_LINKS } from '../../../../lib/shared/constants'
 import msgs from '../../../../nls/platform.properties'

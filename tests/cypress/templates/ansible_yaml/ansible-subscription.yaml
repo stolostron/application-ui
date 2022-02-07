@@ -4,9 +4,9 @@ metadata:
   name: awx-resource-operator
   namespace: app-ui-ansibleoperator
 spec:
-  channel: release-0.1
+  channel: early-access-cluster-scoped
   installPlanApproval: Automatic
-  name: awx-resource-operator   
+  name: ansible-automation-platform-operator
   source: redhat-operators  
   sourceNamespace: openshift-marketplace 
-  startingCSV: awx-resource-operator.v0.1.0
+  startingCSV: aap-operator.v2.0.1-0.1635283332

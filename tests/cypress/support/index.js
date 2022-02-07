@@ -53,7 +53,8 @@ before(() => {
   // create ansible tower secret
   cy.createSecret();
   if (!Cypress.env("IS_CANARY")) {
-    cy.installArgoCDOperator();
+    // Temporarily disable until Placement versions are corrected and/or Argo tests are implemented
+    // cy.installArgoCDOperator();
   }
   // This is needed for search to deploy RedisGraph upstream. Without this search won't be operational.
   cy.ocLogin(Cypress.env("kubeadmin"));

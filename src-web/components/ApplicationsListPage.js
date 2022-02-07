@@ -12,7 +12,7 @@
 import React from 'react'
 import { RESOURCE_TYPES } from '../../lib/shared/constants'
 import { typedResourcePageList } from './common/ResourcePage'
-import { AcmTablePaginationContextProvider } from '@open-cluster-management/ui-components'
+import { AcmTablePaginationContextProvider } from '@stolostron/ui-components'
 import { PageSection } from '@patternfly/react-core'
 
 const TypedResourcePageList = typedResourcePageList(

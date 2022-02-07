@@ -1482,7 +1482,7 @@ export const setResourceDeployStatus = (node, details, activeFilters) => {
 
         if (addItemToDetails) {
           details.push({
-            labelValue: targetNS,
+            labelValue: targetNS || 'Status',
             value: deployedKey,
             status: statusStr
           })

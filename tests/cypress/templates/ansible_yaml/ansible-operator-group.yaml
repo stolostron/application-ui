@@ -3,6 +3,3 @@ kind: OperatorGroup
 metadata:
   name: ansibleoperator-ssmqp
   namespace: app-ui-ansibleoperator
-spec:
-  targetNamespaces:
-  - app-ui-ansibleoperator

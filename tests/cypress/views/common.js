@@ -685,7 +685,7 @@ export const verifyApplicationData = (name, data, opType) => {
 
   if (opType == "delete") {
     //verify the second subscription can select placement rule 1, bug #7359
-    verifyYamlTemplate(`${name}-placement-1`);
+    verifyYamlTemplate(`${name}-placement-2`);
   }
 };
 

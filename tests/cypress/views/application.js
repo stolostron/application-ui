@@ -942,7 +942,7 @@ export const addNewSubscription = (
     createHelm(clusterName, data, true);
   }
   if (data.new[0].deployment.existing) {
-    verifyYamlTemplate(`${name}-placement-1`);
+    verifyYamlTemplate(`${name}-placement-2`);
   }
 
   submitSave(true);

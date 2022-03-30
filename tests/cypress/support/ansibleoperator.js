@@ -42,7 +42,7 @@ Cypress.Commands.add("installAnsibleOperator", () => {
               } else if (stdout.includes("deleted")) {
                 cy.log(`app-ui-ansibleoperator namespace deleted.`);
               }
-              cyoc
+              cy
                 .exec(`oc create namespace app-ui-ansibleoperator`, {
                   timeout: 20 * 1000
                 })

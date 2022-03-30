@@ -15,7 +15,7 @@ Cypress.Commands.add("installAnsibleOperator", () => {
         timeout: 20 * 1000
       })
       .then(({ stdout }) => {
-        if (stdout.includes("tower-resource-operator")) {
+        if (stdout.includes("automation-controller-operator")) {
           cy.log(`AnsibleOperator already exists.`);
         } else {
           cy.log(`Installing AnsibleOperator ...`);
@@ -26,7 +26,7 @@ Cypress.Commands.add("installAnsibleOperator", () => {
             }
           );
           cy.exec(
-            `oc delete deployment tower-resource-operator -n app-ui-ansibleoperator`,
+            `oc delete deployment automation-controller-operator-controller-manager -n app-ui-ansibleoperator`,
             { failOnNonZeroExit: false }
           );
           cy

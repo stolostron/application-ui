@@ -107,7 +107,7 @@
     "lodash": "^4.17.21",
     "log4js": "^6.4.4",
     "mime-types": "^2.1.18",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "monaco-editor": "^0.20.0",

@@ -40,8 +40,8 @@ const authUrl = Cypress.config().baseUrl.replace(
 
 Cypress.Commands.add("login", (idp, user, password) => {
   cy.log(`Attempt to log in app tests user ${user} with idp ${idp}`);
-  cy.location().then(location => {
-    if (!location.href.includes("oauth-openshift")) {
+  cy.url().then(url => {
+    if (!url.includes("oauth-openshift")) {
       // handle provider button
       cy.log("Clicking 'Log in with OpenShift' button");
       cy

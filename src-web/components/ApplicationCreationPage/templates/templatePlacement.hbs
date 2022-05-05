@@ -14,7 +14,8 @@
       name: {{{@root.name}}}-placement-{{uniqueGroupID}}
     {{else}}
       name:
-    {{/unless}}     
+    {{/unless}}
+{{/if}}
 {{#if timeWindow.mode}}
   timewindow:
     windowtype: {{{timeWindow.mode}}}

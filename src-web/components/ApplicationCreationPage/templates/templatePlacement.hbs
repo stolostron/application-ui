@@ -9,9 +9,12 @@
       kind: PlacementRule
 {{#if selectedRuleName}}
       name: {{{selectedRuleName}}}
-{{else}}       
+{{else}}
+    {{#unless existingrule-checkbox}}       
       name: {{{@root.name}}}-placement-{{uniqueGroupID}}
-{{/if}}       
+    {{else}}
+      name:
+    {{/unless}}     
 {{#if timeWindow.mode}}
   timewindow:
     windowtype: {{{timeWindow.mode}}}
@@ -64,4 +67,3 @@ spec:
   {{/if}}
 {{/if}}
 {{/unless}}
-

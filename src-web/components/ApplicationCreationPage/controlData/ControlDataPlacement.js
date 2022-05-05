@@ -120,6 +120,8 @@ export const updateDisplayForPlacementControls = (
       clusterSelectorControl.active.mode = true
       delete clusterSelectorControl.showData
     }
+    const availablePlacementControl = existingRuleControl.available
+    if (!availablePlacementControl.includes(existingRuleControl.active)) existingRuleControl.active = ''
   })
   return controlGlobal
 }
@@ -222,7 +224,7 @@ export const reverseExistingRuleName = (control, templateObject) => {
     templateObject,
     getSourcePath('Subscription[0].spec.placement.placementRef.name')
   )
-  if (active && control.type !== 'hidden' && control.active === undefined) {
+  if (active && control.active === undefined) {
     const { groupControlData } = control
     const selectedRuleName = groupControlData.find(
       ({ id }) => id === 'selectedRuleName'
@@ -317,7 +319,7 @@ const placementData = async () => [
   {
     id: 'selectedRuleName',
     type: 'hidden',
-    reverse: reverseExistingRuleName,
+    reverse: reverseExistingRuleName
   },
   {
     type: 'custom',

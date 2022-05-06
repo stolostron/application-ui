@@ -220,7 +220,7 @@ export const controlData = [
   },
   {
     id: 'prune',
-    type: 'hidden',
+    type: 'checkbox',
     name: 'argo.sync.policy.prune',
     onSelect: {},
     active: false,
@@ -228,7 +228,7 @@ export const controlData = [
   },
   {
     id: 'pruneLast',
-    type: 'hidden',
+    type: 'checkbox',
     name: 'argo.sync.policy.prune.last',
     onSelect: {},
     active: false,
@@ -236,7 +236,7 @@ export const controlData = [
   },
   {
     id: 'replace',
-    type: 'hidden',
+    type: 'checkbox',
     name: 'argo.sync.policy.replace',
     onSelect: {},
     active: false,

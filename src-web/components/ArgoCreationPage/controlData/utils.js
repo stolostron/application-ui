@@ -320,37 +320,11 @@ export const getUniqueChannelName = (channelPath, groupControlData) => {
   return channelName
 }
 
-export const updateSyncPolicies = (urlControl, globalControl) => {
-  const selectedID = _.get(urlControl, 'id')
-  const pruneControl = globalControl.find(
-    ({ id: idCtrl }) => idCtrl === 'prune'
-  )
-  const pruneLastControl = globalControl.find(
-    ({ id: idCtrl }) => idCtrl === 'pruneLast'
-  )
-  const replaceControl = globalControl.find(
-    ({ id: idCtrl }) => idCtrl === 'replace'
-  )
-
-  if (selectedID.includes('git')) {
-    _.set(pruneControl, 'type', 'checkbox')
-    _.set(pruneLastControl, 'type', 'checkbox')
-    _.set(replaceControl, 'type', 'checkbox')
-  } else {
-    // reset values
-    _.set(pruneControl, 'type', 'hidden')
-    _.set(pruneLastControl, 'type', 'hidden')
-    _.set(replaceControl, 'type', 'hidden')
-  }
-}
-
 export const updateChannelControls = (
   urlControl,
   globalControl,
   setLoadingState
 ) => {
-  updateSyncPolicies(urlControl, globalControl)
-
   getGitBranches(_.get(urlControl, 'groupControlData'), setLoadingState)
 
   //update existing placement rule section when user changes the namespace

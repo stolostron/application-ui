@@ -188,7 +188,6 @@ helm:
           password: ""
           chartName: redis
           packageAlias: redis
-          packageVersion: 12.2.4
           repositoryReconcileRate: medium
           deployment:
             local: false
@@ -199,7 +198,6 @@ helm:
           username: ""
           password: ""
           chartName: minio
-          packageVersion: 4.1.9
           timeWindow:
             setting: true
             type: blockinterval

@@ -163,7 +163,6 @@ helm:
           username: ""
           password: ""
           chartName: redis
-          packageVersion: 12.2.4
           deployment:
             local: false
             online: false
@@ -173,7 +172,6 @@ helm:
           username: ""
           password: ""
           chartName: minio
-          packageVersion: 4.1.9
           timeWindow:
             setting: true
             type: blockinterval
@@ -195,7 +193,6 @@ helm:
           username: ""
           password: ""
           chartName: redis
-          packageVersion: 12.2.4
           deployment:
             local: false
             online: true

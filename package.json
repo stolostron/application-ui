@@ -198,7 +198,6 @@
     "lint-staged": "^7.0.0",
     "mini-css-extract-plugin": "^0.12.0",
     "monaco-editor-webpack-plugin": "^1.9.0",
-    "node-sass": "^4.14.1",
     "postcss-loader": "^2.1.4",
     "prettier": "1.11.0",
     "properties-parser": "^0.3.1",

@@ -52,12 +52,27 @@ Cypress.Commands.add("installAnsibleOperator", () => {
                 )
                 .its("stdout")
                 .should("contain", "created");
+              
+              var ansible_sub = "ansible-subscription.yaml";  
               cy
-                .exec(
-                  `oc apply -f ${ANSIBLE_FILE_PATH}/ansible-subscription.yaml`
-                )
-                .its("stdout")
-                .should("contain", "created");
+                .exec(`oc get clusterversion -o=jsonpath='{.items[0].status.desired.version}'`, {
+                  failOnNonZeroExit: false,
+                  timeout: 50 * 1000
+                })
+                .then(({ stdout}) => {
+                  if (stdout.includes("4.6.")) {
+                    cy.log(`Install early access ansible operator.`);
+                    ansible_sub = "ansible-subscription-early-access.yaml"
+                  }
+                })
+                .then(() => {
+                  cy
+                  .exec(
+                    `oc apply -f ${ANSIBLE_FILE_PATH}/${ansible_sub}`
+                  )
+                  .its("stdout")
+                  .should("contain", "created");
+                });
             });
         }
       });

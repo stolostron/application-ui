@@ -107,7 +107,7 @@
     "log4js": "^6.4.5",
     "mime-types": "^2.1.18",
     "minimist": "^1.2.6",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.31",
     "monaco-editor": "^0.20.0",
     "morgan": "^1.10.0",

@@ -1254,7 +1254,7 @@ export const validateDefect7696 = name => {
 };
 
 export const navigateApplication = () => {
-  cy.visit("/multicloud/applications");
+  cy.visit("/multicloud/applications", { failOnStatusCode: false });
   cy
     .get('button[id="actions.create.application"]', { timeout: 100 * 1000 })
     .should("not.be.disabled")

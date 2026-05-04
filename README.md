@@ -1,5 +1,7 @@
-# application-ui [![Build Status](https://travis-ci.com/stolostron/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/stolostron/application-ui)
+# DEPRECATED application-ui [![Build Status](https://travis-ci.com/stolostron/application-ui.svg?token=zz7o8y9oX6xWxP1o2gF2&branch=main)](https://travis-ci.com/stolostron/application-ui)
 The UI service for Application Lifecycle
+
+This repository is no longer used and has been superseded by [stolostron/console](https://github.com/stolostron/console)
 
 ------
 
